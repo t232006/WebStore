@@ -14,6 +14,6 @@ namespace WebStore.Controllers
         {
             return Content($"Hello from ID -{ID}");
         }
-        
+        public IActionResult Error404() => View();
     }
 }
