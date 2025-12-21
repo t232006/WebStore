@@ -5,12 +5,7 @@ namespace WebStore.Controllers
 {
     public class HomeController : Controller
     {
-        private static readonly List<Employee> _employees = new()
-        {
-            new Employee { Id = 1, Name = "Alice", Position = "Developer" , DateOfBirth=new DateTime(2002,12,12) },
-            new Employee { Id = 2, Name = "Bob", Position = "Designer" , DateOfBirth=new DateTime(2001,11,11) },
-            new Employee { Id = 3, Name = "Charlie", Position = "Manager", DateOfBirth=new DateTime(2000,10,10) }
-        };
+        
         public IActionResult Index()
         {
             return View();
@@ -19,15 +14,6 @@ namespace WebStore.Controllers
         {
             return Content($"Hello from ID -{ID}");
         }
-        public IActionResult Employees()
-        {
-            return View(_employees);
-        }
-        public IActionResult EmployeeDetails(int Id)
-        {
-            var employee = _employees.FirstOrDefault(e => e.Id == Id);
-            if (employee is null)
-                return NotFound(); else return View(employee);
-        }
+        
     }
 }

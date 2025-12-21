@@ -1,5 +1,7 @@
-﻿<h3>Our employees</h3>
-<table class="conteiner">
+﻿@model IEnumerable<WebStore.Models.Employee>
+<div class="container">
+<h3>Our employees</h3>
+<table class="table">
     <thead>
         <tr>
             <th>Id</th>
@@ -13,7 +15,7 @@
         {
             <tr>
                 <td>@employee.Id</td>
-                <td><a href="/Home/EmployeeDetails/@employee.Id">@employee.Name</a></td>
+                <td><a asp-controller="Empl" asp-action="Details" asp-route-Id="@employee.Id" >@employee.Name</a></td>
                 <td>@employee.Position</td>
                 <td>@employee.Age</td>
             </tr>
@@ -21,4 +23,5 @@
     </tbody>
 </table>
 <a href="/">На главную</a>
+</div>
 
