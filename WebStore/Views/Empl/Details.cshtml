@@ -1,6 +1,6 @@
 ﻿@model WebStore.Models.Employee
 
-<div class="conteiner">
+<div class="container">
     <h4>Employee</h4>
     <hr />
     <dl class="row">
@@ -33,8 +33,8 @@
         </dt>
     </dl>
 </div>
-<div class="conteiner">
+<div class="container">
     @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
-    @Html.ActionLink("К списку", "Employees")
+    <a asp-controller="Home" asp-action="Index">На главную</a>
     @*<a href="/Home/Employees">К списку</a>*@
 </div>
