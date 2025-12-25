@@ -15,6 +15,9 @@ namespace WebStore.Controllers
         {
             return View(_employees);
         }
+        //[Route("Staff/info/{Id}")]
+        [Route("staff/info/{Id}")]  //will be work as default
+        [Route("[controller]/info/{Id}")]   //will be work
         public IActionResult Details(int Id)
         {
             var employee = _employees.FirstOrDefault(e => e.Id == Id);
