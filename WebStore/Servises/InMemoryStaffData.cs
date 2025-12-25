@@ -10,7 +10,7 @@ namespace WebStore.Servises
         private readonly ILogger<InMemoryStaffData> logger;
         private int LastId;
 
-        InMemoryStaffData(ILogger<InMemoryStaffData> _logger)
+        public InMemoryStaffData(ILogger<InMemoryStaffData> _logger)
         {
             this.logger = _logger;
             staff = TestData._employees;
