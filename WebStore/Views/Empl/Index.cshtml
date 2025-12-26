@@ -1,35 +1,48 @@
 ﻿@model IEnumerable<WebStore.Models.Employee>
 <div class="container">
 <h3>Our employees</h3>
-<table class="table">
-    <thead>
-        <tr>
-            <th>Id</th>
-            <th>Name</th>
-            <th>Position</th>
-            <th>Age</th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var employee in Model)
-        {
+@if (@Model.Any())
+{
+    <table class="table">
+        <thead>
             <tr>
-                <td>@employee.Id</td>
-                <td><a asp-controller="Empl" asp-action="Details" asp-route-Id="@employee.Id" >@employee.Name</a></td>
-                <td>@employee.Position</td>
-                <td>@employee.Age</td>
-                <td>
-                    <a asp-action="Edit" asp-route-Id="@employee.Id"
-                        class="btn btn-default" >
-                        <i class="fa fa-edit"></i>
-                    </a>
-                </td>
-
+                <th>Id</th>
+                <th>Name</th>
+                <th>Position</th>
+                <th>Age</th>
+                <th></th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (var employee in Model)
+            {
+                <tr>
+                    <td>@employee.Id</td>
+                    <td><a asp-controller="Empl" asp-action="Details" asp-route-Id="@employee.Id">@employee.Name</a></td>
+                    <td>@employee.Position</td>
+                    <td>@employee.Age</td>
+                    <td>
+                        <a asp-action="Edit" asp-route-Id="@employee.Id"
+                           class="btn btn-default">
+                            <i class="fa fa-edit"></i>
+                        </a>
+                        <a asp-action="Delete" asp-route-Id="@employee.Id"
+                           class="btn btn-danger">
+                            <i class="fa fa-trash-o"></i>
+                        </a>
+                    </td>
+                    
+
+                </tr>
+            }
+            
+
+        </tbody>
+    </table>
+}
+    else{<p>There are no records</p>}
+
+    
 <a href="/">На главную</a>
 </div>
 

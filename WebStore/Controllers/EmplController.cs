@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis.Elfie.Diagnostics;
+using System.Xml.Linq;
 using WebStore.Models;
 using WebStore.Servises;
 using WebStore.Servises.Interfaces;
@@ -49,5 +51,28 @@ namespace WebStore.Controllers
             _employees.Edit(empl);
             return RedirectToAction(nameof(Index));
         }
+        public IActionResult Delete(int ID)
+        {
+            //_employees.Delete(ID);    так нельзя!        
+            //return RedirectToAction(nameof(Index));
+            Employee? empl = _employees.GetByID(ID);
+            if (empl is null) return NotFound();
+            var evm = new EmployeeViewModel
+            { 
+                Id = empl.Id,
+                Name = empl.Name,
+                Position = empl.Position,
+                DateOfBirth = empl.DateOfBirth,
+            };
+            return View(evm);
+        }
+        [HttpPost]
+        public IActionResult DeleteConfirmed(int ID)
+        {
+            if (!_employees.Delete(ID)) return NotFound();
+            _employees.Delete(ID);
+            return RedirectToAction(nameof(Index));
+        }
+
     }
 }
