@@ -21,8 +21,13 @@ namespace WebStore.Servises
         public bool Delete(int Id)
         {
             Employee? empl = staff.FirstOrDefault(t => t.Id == Id);
-            if (empl is null) return false;
+            if (empl is null)
+            {
+                logger.LogWarning("During delete attempt employee with ID:{0} - record is not found", Id);
+                return false;
+            }
             staff.Remove(empl);
+            logger.LogInformation("Employee with ID:{0} is deleted", Id);
             return true;
         }
 
@@ -30,10 +35,17 @@ namespace WebStore.Servises
         {
             if (empl is null) throw new ArgumentNullException(nameof(empl));
             Employee? _empl = GetByID(empl.Id);
-            if (_empl is null) return false;
+            if (_empl is null)
+            {
+                logger.LogWarning("During edit attempt employee with ID:{0} - record is not found", empl.Id);
+                return false;
+            }    
+                
+
             _empl.Name = empl.Name;
             _empl.DateOfBirth = empl.DateOfBirth;
             _empl.Position = empl.Position;
+            logger.LogInformation("Employee {0} is edited", empl);
             return true;
         }
 
@@ -54,6 +66,7 @@ namespace WebStore.Servises
             if (staff.Contains(empl)) return empl.Id;
             empl.Id = LastId++;
             staff.Add(empl);
+            logger.LogInformation("Employee {0} is inserted", empl);
             return empl.Id;
         }
     }

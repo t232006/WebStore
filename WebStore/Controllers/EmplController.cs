@@ -82,7 +82,7 @@ namespace WebStore.Controllers
         public IActionResult DeleteConfirmed(int ID)
         {
             if (!_employees.Delete(ID)) return NotFound();
-            _employees.Delete(ID);
+            //_employees.Delete(ID);
             return RedirectToAction(nameof(Index));
         }
 
