@@ -1,3 +1,6 @@
+using WebStore.Servises;
+using WebStore.Servises.Interfaces;
+
 namespace WebStore
 {
     public class Program
@@ -5,12 +8,15 @@ namespace WebStore
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+            
+            builder.Services.AddScoped<IStaffData, InMemoryStaffData>();
             builder.Services.AddControllersWithViews();
             var app = builder.Build();
             if (app.Environment.IsDevelopment()) 
             {
                 app.UseDeveloperExceptionPage();
             }
+            
             app.UseStaticFiles();
             app.UseRouting();
             app.MapGet("/greetings", () => app.Configuration["ServerGreetings"]);
