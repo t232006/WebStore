@@ -10,7 +10,7 @@ namespace WebStore.ViewModels
         //private DateTime _DateOfBirth;
         [DataType(DataType.Date)]
         //public DateTime DateOfBirth { get => _DateOfBirth.Date; set => _DateOfBirth = value; }
-        public DateTime DateOfBirth { get; set; }
+        public DateTime DateOfBirth { get; set; } = new DateTime(2000, 01, 01);
 
     }
 }

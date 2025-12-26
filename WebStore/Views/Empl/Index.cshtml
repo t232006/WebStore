@@ -3,6 +3,11 @@
 <h3>Our employees</h3>
 @if (@Model.Any())
 {
+    <p>
+        <a asp-action="Edit" class="btn btn-default">Insert throught Edit</a>
+        <a asp-action="InsertEmp" class="btn btn-default">Insert throught Create</a>
+
+    </p>
     <table class="table">
         <thead>
             <tr>
@@ -23,20 +28,16 @@
                     <td>@employee.Age</td>
                     <td>
                         <a asp-action="Edit" asp-route-Id="@employee.Id"
-                           class="btn btn-default">
+                           class="btn-sm btn-default">
                             <i class="fa fa-edit"></i>
                         </a>
                         <a asp-action="Delete" asp-route-Id="@employee.Id"
-                           class="btn btn-danger">
+                           class="btn-sm btn-danger">
                             <i class="fa fa-trash-o"></i>
                         </a>
                     </td>
-                    
-
                 </tr>
             }
-            
-
         </tbody>
     </table>
 }

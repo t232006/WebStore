@@ -26,21 +26,26 @@ namespace WebStore.Controllers
             if (emp is null) return NotFound();
             return View(emp);
         }
-        public IActionResult Edit(int Id)
+        public IActionResult InsertEmp() => View("Edit", new EmployeeViewModel());
+        public IActionResult Edit(int? Id)
         {
-            Employee? empl = _employees.GetByID(Id);
+            Employee empl = new Employee();
+            if (Id is null)
+                return View(new EmployeeViewModel());  
+            empl = _employees.GetByID((int)Id);
             var evm = new EmployeeViewModel
             {
                 Id = empl.Id,
                 Name = empl.Name,
                 Position = empl.Position,
                 DateOfBirth = empl.DateOfBirth,
-            };
+            }; 
             return View(evm);
         }
         [HttpPost]
-        public IActionResult Edit(EmployeeViewModel evm)
+        public IActionResult Edit(EmployeeViewModel? evm)
         {
+            
             var empl = new Employee
             {
                 Id = evm.Id,
@@ -48,7 +53,14 @@ namespace WebStore.Controllers
                 Position = evm.Position,
                 DateOfBirth = evm.DateOfBirth,
             };
-            _employees.Edit(empl);
+            if (empl.Id == 0)
+            {
+                int _id = _employees.Insert(empl);
+                return RedirectToAction(nameof(Details), new { Id = _id });
+            }
+                
+            else
+                _employees.Edit(empl);
             return RedirectToAction(nameof(Index));
         }
         public IActionResult Delete(int ID)
