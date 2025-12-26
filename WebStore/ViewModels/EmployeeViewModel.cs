@@ -1,15 +1,16 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace WebStore.Models
+namespace WebStore.ViewModels
 {
-    public class Employee
+    public class EmployeeViewModel
     {
         public int Id { get; set; }
         public string? Name { get; set; }
         public string? Position { get; set; }
+        //private DateTime _DateOfBirth;
         [DataType(DataType.Date)]
         //public DateTime DateOfBirth { get => _DateOfBirth.Date; set => _DateOfBirth = value; }
         public DateTime DateOfBirth { get; set; }
-        public int Age { get => Convert.ToInt32((DateTime.Today - DateOfBirth).TotalDays/365); }
+
     }
 }
