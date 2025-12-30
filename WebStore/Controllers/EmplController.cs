@@ -45,7 +45,10 @@ namespace WebStore.Controllers
         [HttpPost]
         public IActionResult Edit(EmployeeViewModel? evm)
         {
-            
+           /* if ((DateTime.Today - evm.DateOfBirth).TotalDays / 365 < 18)
+                ModelState.AddModelError("DateOfBirth", "Слишком молод для работы здесь");*/
+            if (!ModelState.IsValid)
+                return View();
             var empl = new Employee
             {
                 Id = evm.Id,

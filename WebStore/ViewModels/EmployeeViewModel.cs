@@ -1,11 +1,18 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
 
 namespace WebStore.ViewModels
 {
     public class EmployeeViewModel
     {
+        [HiddenInput(DisplayValue =false)]
         public int Id { get; set; }
-        public string? Name { get; set; }
+        [Display(Name ="Имя")]
+        [Required(ErrorMessage="Обязательно имя")]
+        [StringLength(20, MinimumLength =2, ErrorMessage="Длина должна быть от 2 до 20")]
+        [RegularExpression("([А-ЯЁ][а-яё]+)|([A-Z][a-z]+)", ErrorMessage ="Неверный ввод имени")]
+        public string Name { get; set; }
+        [Display(Name="Должность")]
         public string? Position { get; set; }
         //private DateTime _DateOfBirth;
         [DataType(DataType.Date)]
