@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace WebStore.ViewModels
 {
-    public class EmployeeViewModel
+    public class EmployeeViewModel: IValidatableObject
     {
         [HiddenInput(DisplayValue =false)]
         public int Id { get; set; }
@@ -19,5 +19,19 @@ namespace WebStore.ViewModels
         //public DateTime DateOfBirth { get => _DateOfBirth.Date; set => _DateOfBirth = value; }
         public DateTime DateOfBirth { get; set; } = new DateTime(2000, 01, 01);
 
+        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        {
+            if ((DateTime.Today - DateOfBirth).TotalDays / 365 < 18)
+            {
+                return new[]
+                {
+                    new ValidationResult("Слишком молод для такой работы", new[]
+                    {
+                        nameof(DateOfBirth)
+                    })
+                };
+            }
+            return new[] { ValidationResult.Success! };
+        }
     }
 }
