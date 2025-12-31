@@ -6,7 +6,7 @@ namespace WebStore.ViewModels
     public class EmployeeViewModel: IValidatableObject
     {
         [HiddenInput(DisplayValue =false)]
-        public int Id { get; set; }
+        public int ID { get; set; }
         [Display(Name ="Имя")]
         [Required(ErrorMessage="Обязательно имя")]
         [StringLength(20, MinimumLength =2, ErrorMessage="Длина должна быть от 2 до 20")]

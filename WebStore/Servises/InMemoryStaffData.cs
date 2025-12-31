@@ -15,29 +15,29 @@ namespace WebStore.Servises
             this.logger = _logger;
             staff = TestData._employees;
             if (staff.Count > 0)
-                LastId = staff.Max(t => t.Id) + 1;
+                LastId = staff.Max(t => t.ID) + 1;
             else LastId = 1;
         }
-        public bool Delete(int Id)
+        public bool Delete(int ID)
         {
-            Employee? empl = staff.FirstOrDefault(t => t.Id == Id);
+            Employee? empl = staff.FirstOrDefault(t => t.ID == ID);
             if (empl is null)
             {
-                logger.LogWarning("During delete attempt employee with ID:{0} - record is not found", Id);
+                logger.LogWarning("During delete attempt employee with ID:{0} - record is not found", ID);
                 return false;
             }
             staff.Remove(empl);
-            logger.LogInformation("Employee with ID:{0} is deleted", Id);
+            logger.LogInformation("Employee with ID:{0} is deleted", ID);
             return true;
         }
 
         public bool Edit(Employee empl)
         {
             if (empl is null) throw new ArgumentNullException(nameof(empl));
-            Employee? _empl = GetByID(empl.Id);
+            Employee? _empl = GetByID(empl.ID);
             if (_empl is null)
             {
-                logger.LogWarning("During edit attempt employee with ID:{0} - record is not found", empl.Id);
+                logger.LogWarning("During edit attempt employee with ID:{0} - record is not found", empl.ID);
                 return false;
             }    
                 
@@ -54,20 +54,20 @@ namespace WebStore.Servises
             return staff;
         }
 
-        public Employee? GetByID(int Id)
+        public Employee? GetByID(int ID)
         {
-            //return (Employee?)staff.Select(t => t.Id);
-            return staff.FirstOrDefault(t => t.Id == Id);
+            //return (Employee?)staff.Select(t => t.ID);
+            return staff.FirstOrDefault(t => t.ID == ID);
         }
 
         public int Insert(Employee empl)
         {
             if (empl is null) throw new ArgumentNullException(nameof(Employee));
-            if (staff.Contains(empl)) return empl.Id;
-            empl.Id = LastId++;
+            if (staff.Contains(empl)) return empl.ID;
+            empl.ID = LastId++;
             staff.Add(empl);
             logger.LogInformation("Employee {0} is inserted", empl);
-            return empl.Id;
+            return empl.ID;
         }
     }
 }

@@ -12,7 +12,7 @@
         <thead>
             <tr>
                 <th></th>
-                <th>Id</th>
+                <th>ID</th>
                 <th>Name</th>
                 <th>Position</th>
                 <th>Age</th>
@@ -24,21 +24,21 @@
             {
                 <tr>
                     <td>
-                    <form asp-action="DeleteConfirmed" asp-route-id="@employee.Id">
+                    <form asp-action="DeleteConfirmed" asp-route-id="@employee.ID">
                         <input type="submit" value="X" class="btn btn-danger"/>
 
                     </form>
                     </td>
-                    <td>@employee.Id</td>
-                    <td><a asp-controller="Empl" asp-action="Details" asp-route-Id="@employee.Id">@employee.Name</a></td>
+                    <td>@employee.ID</td>
+                    <td><a asp-controller="Empl" asp-action="Details" asp-route-ID="@employee.ID">@employee.Name</a></td>
                     <td>@employee.Position</td>
                     <td>@employee.Age</td>
                     <td>
-                        <a asp-action="Edit" asp-route-Id="@employee.Id"
+                        <a asp-action="Edit" asp-route-ID="@employee.ID"
                            class="btn-sm btn-default">
                             <i class="fa fa-edit"></i>
                         </a>
-                        <a asp-action="Delete" asp-route-Id="@employee.Id"
+                        <a asp-action="Delete" asp-route-ID="@employee.ID"
                            class="btn-sm btn-danger">
                             <i class="fa fa-trash-o"></i>
                         </a>

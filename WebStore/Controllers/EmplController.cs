@@ -17,25 +17,25 @@ namespace WebStore.Controllers
         {
             return View(_employees.GetAll());
         }
-        //[Route("Staff/info/{Id}")]
-        //[Route("staff/info/{Id}")]  //will be work as default
-        //[Route("[controller]/info/{Id}")]   //will be work
-        public IActionResult Details(int Id)
+        //[Route("Staff/info/{ID}")]
+        //[Route("staff/info/{ID}")]  //will be work as default
+        //[Route("[controller]/info/{ID}")]   //will be work
+        public IActionResult Details(int ID)
         {
-            var emp = _employees.GetByID(Id);
+            var emp = _employees.GetByID(ID);
             if (emp is null) return NotFound();
             return View(emp);
         }
         public IActionResult InsertEmp() => View("Edit", new EmployeeViewModel());
-        public IActionResult Edit(int? Id)
+        public IActionResult Edit(int? ID)
         {
             Employee empl = new Employee();
-            if (Id is null)
+            if (ID is null)
                 return View(new EmployeeViewModel());  
-            empl = _employees.GetByID((int)Id);
+            empl = _employees.GetByID((int)ID);
             var evm = new EmployeeViewModel
             {
-                Id = empl.Id,
+                ID = empl.ID,
                 Name = empl.Name,
                 Position = empl.Position,
                 DateOfBirth = empl.DateOfBirth,
@@ -51,15 +51,15 @@ namespace WebStore.Controllers
                 return View();
             var empl = new Employee
             {
-                Id = evm.Id,
+                ID = evm.ID,
                 Name = evm.Name,
                 Position = evm.Position,
                 DateOfBirth = evm.DateOfBirth,
             };
-            if (empl.Id == 0)
+            if (empl.ID == 0)
             {
                 int _id = _employees.Insert(empl);
-                return RedirectToAction(nameof(Details), new { Id = _id });
+                return RedirectToAction(nameof(Details), new { ID = _id });
             }
                 
             else
@@ -74,7 +74,7 @@ namespace WebStore.Controllers
             if (empl is null) return NotFound();
             var evm = new EmployeeViewModel
             { 
-                Id = empl.Id,
+                ID = empl.ID,
                 Name = empl.Name,
                 Position = empl.Position,
                 DateOfBirth = empl.DateOfBirth,
