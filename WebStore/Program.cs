@@ -10,6 +10,7 @@ namespace WebStore
             var builder = WebApplication.CreateBuilder(args);
             
             builder.Services.AddScoped<IStaffData, InMemoryStaffData>();
+            builder.Services.AddScoped<IProductData, InMemoryProductData>();
             builder.Services.AddControllersWithViews();
             var app = builder.Build();
             if (app.Environment.IsDevelopment()) 
