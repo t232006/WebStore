@@ -12,7 +12,7 @@ namespace WebStore.Services
             return TestData.Brands;
         }
 
-        public IEnumerable<Product> GetProduct(ProductFilter? filter)
+        public IEnumerable<Product> GetProducts(ProductFilter? filter)
         {
             var result = TestData.Products;
             if(filter != null)
