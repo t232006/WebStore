@@ -2,11 +2,11 @@
 using WebStore.Domain.Base;
 using WebStore.Servises.Interfaces;
 
-namespace WebStore.Servises
+namespace WebStore.Services
 {
     public class InMemoryProductData : IProductData
     {
-{
+
         public IEnumerable<Brand> GetBrands()
         {
             return TestData.Brands;
@@ -18,4 +18,4 @@ namespace WebStore.Servises
         }
     }
 }
-}
+
