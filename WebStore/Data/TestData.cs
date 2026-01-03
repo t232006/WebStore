@@ -3,6 +3,7 @@
 using WebStore.Models;
 //using static System.Collections.Specialized.BitVector32;
 using WebStore.Domain.Base;
+using Product = WebStore.Domain.Base.Product;
 
 namespace WebStore.Data
 {
@@ -61,7 +62,7 @@ namespace WebStore.Data
         new() { ID = 7, Name = "Rosch creative culture", Order = 6 },
         };
 
-       /* public static IEnumerable<Product> Products { get; } = new Product[]
+        public static IEnumerable<Product> Products { get; } = new Product[]
         {
         new() { ID = 1, Name = "Белое платье", Price = 1025, ImageUrl = "product1.jpg", Order = 0, SectionId = 2, BrandId = 1 },
         new() { ID = 2, Name = "Розовое платье", Price = 1025, ImageUrl = "product2.jpg", Order = 1, SectionId = 2, BrandId = 1 },
@@ -75,7 +76,7 @@ namespace WebStore.Data
         new() { ID = 10, Name = "Женские джинсы", Price = 1025, ImageUrl = "product10.jpg", Order = 9, SectionId = 25, BrandId = 3 },
         new() { ID = 11, Name = "Джинсы женские", Price = 1025, ImageUrl = "product11.jpg", Order = 10, SectionId = 25, BrandId = 3 },
         new() { ID = 12, Name = "Летний костюм", Price = 1025, ImageUrl = "product12.jpg", Order = 11, SectionId = 25, BrandId = 3 },
-        };*/
+        };
     }
 
 }

@@ -5,10 +5,10 @@ namespace WebStore.Domain.Base
 {
     public class Product : NamedEntity, IOrderedEntity
     {
-        Decimal Price { get; set; }
-        String ImageUrl { get; set; } = null!;
-        int SectionID { get; set; }
-        int BrandID { get; set; }
+        public Decimal Price { get; set; }
+        public String ImageUrl { get; set; } = null!;
+        public int SectionId { get; set; }
+        public int BrandId { get; set; }
         public int Order { get ; set ; }
     }
 }
