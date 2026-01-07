@@ -9,7 +9,7 @@ namespace WebStore.Data
 {
     public static class TestData
     {
-        public static readonly List<Employee> _employees = new List<Employee>
+        public static List<Employee> _employees = new List<Employee>
         {
             new() { ID = 1, Name = "Alice", Position = "Developer" , DateOfBirth=new DateTime(2002,12,12) },
             new() { ID = 2, Name = "Bob", Position = "Designer" , DateOfBirth=new DateTime(2001,11,11) },
@@ -77,6 +77,30 @@ namespace WebStore.Data
         new() { ID = 11, Name = "Джинсы женские", Price = 1025, ImageUrl = "product11.jpg", Order = 10, SectionId = 25, BrandId = 3 },
         new() { ID = 12, Name = "Летний костюм", Price = 1025, ImageUrl = "product12.jpg", Order = 11, SectionId = 25, BrandId = 3 },
         };
-    }
+    
+        public static IEnumerable<Blog> Blogs { get; } = new Blog[]
+    {
+        new() {ID=1, Name = "Girls Pink T Shirt arrived in store",
+                PictureUrl="blog-one.jpg",
+                Author = "Piter Pen",
+                Block = "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
+                publicDate = new DateTime(2013, 10, 23, 15, 29, 51),
+        },
+        new() {ID=2, Name = "New brands are outsiders in quality",
+                Author = "Janna Sid",
+                PictureUrl="blog-three.jpg",
+                Block = "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
+                publicDate = new DateTime(2013, 10, 24, 15, 29, 51),
+        },
+        new() {ID=3, Name = "Whild style coming to the release",
+                Author = "Piter Pen",
+                PictureUrl="blog-two.jpg",
+                Block = "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
+                publicDate = new DateTime(2013, 10, 25, 15, 29, 51),
+        },
+
+
+    };
+    };
 
 }
