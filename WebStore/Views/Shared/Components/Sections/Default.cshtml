@@ -1,6 +1,10 @@
 ﻿@model IEnumerable<SectionsViewModel>
 <div class="panel-group category-products" id="accordian">
     <!--category-productsr-->
+    @{
+        string? curController = ViewContext.RouteData.Values["controller"]?.ToString();
+    }
+
     @foreach (var parents in Model)
     {
         @if (parents.ChildSection.Count > 0)
@@ -19,7 +23,10 @@
                     <ul>
                             @foreach (var childs in parents.ChildSection)
                             {
-                                <li><a asp-controller="Catalog" asp-action="Index" asp-route-sectionID="@childs.ID">@childs.Name</a></li>
+                                <li>
+                                    <a asp-controller="@curController" asp-action="Index" asp-route-sectionID="@childs.ID">@childs.Name</a>
+                                    
+                                </li>
                             }
                     </ul>
                 </div>

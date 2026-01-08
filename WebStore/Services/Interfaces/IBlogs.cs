@@ -3,6 +3,6 @@ namespace WebStore.Services.Interfaces
 {
     public interface IBlogs
     {
-        IEnumerable<Blog> GetBlogs();
+        IEnumerable<Blog> GetBlogs(ProductFilter filter);
     }
 }
