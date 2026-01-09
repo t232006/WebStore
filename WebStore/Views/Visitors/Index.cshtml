@@ -1,0 +1,38 @@
+﻿@model IEnumerable<WebStore.Models.Visitors>
+<div class ="container">
+    <h3>Visitors</h3>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>login</th>
+                <th>Name</th>
+                <th>e-mail</th>
+                <th>Registration date</th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+    @foreach(var rec in Model)
+    {
+            
+        <tr>
+            <td>@rec.ID</td>
+            <td>@rec.login</td>
+            <td>@rec.Name</td>
+            <td>@rec.e_mail</td>
+            <td>@rec.regData</td>
+            <td>
+                <a asp-action="DeleteUser" asp-route-ID="@rec.ID"
+                    class="btn-sm btn-danger">
+                    <i class="fa fa-trash-o"></i>
+                </a>
+                <a asp-action="EditUser" asp-route-ID="@rec.ID"
+                    class="btn-sm btn-default">
+                    <i class="fa fa-edit"></i>
+                </a>
+            </td>
+        </tr>
+    }
+    </table>
+</div>

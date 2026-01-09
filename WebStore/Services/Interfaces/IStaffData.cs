@@ -2,12 +2,12 @@
 
 namespace WebStore.Servises.Interfaces
 {
-    public interface IStaffData
+    public interface IStaffData<T>
     {
-        IEnumerable<Employee> GetAll();
-        Employee? GetByID(int ID);
-        bool Edit(Employee empl);
-        int Insert(Employee empl);
+        IEnumerable<T> GetAll();
+        T? GetByID(int ID);
+        bool Edit(T empl);
+        int Insert(T empl);
         bool Delete(int ID);
     }
 }

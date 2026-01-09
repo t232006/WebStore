@@ -11,8 +11,8 @@ namespace WebStore.Controllers
 {
     public class EmplController:Controller
     {
-        private readonly IStaffData _employees;
-        public EmplController(IStaffData empl) => _employees = empl;
+        private readonly IStaffData<Employee> _employees;
+        public EmplController(IStaffData<Employee> empl) => _employees = empl;
         public IActionResult Index()
         {
             return View(_employees.GetAll());

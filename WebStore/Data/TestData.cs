@@ -16,6 +16,13 @@ namespace WebStore.Data
             new() { ID = 3, Name = "Charlie", Position = "Manager", DateOfBirth=new DateTime(2000,10,10) }
         };
 
+        public static List<Visitors> _visitors = new List<Visitors>
+        {
+            new() { ID = 1, Name = "Natali", login="nat01", e_mail="nat@gmail.com", regData=new DateTime(2013,12,12) },
+            new() { ID = 2, Name = "Kristian", login="kri01", e_mail = "Designer@yandex.ru" , regData=new DateTime(2013,11,11) },
+            new() { ID = 3, Name = "Karl", login="kar01",e_mail = "Manager@gmail.com", regData=new DateTime(2013,10,10) }
+        };
+
         public static IEnumerable<Section> Sections { get; } = new Section[]
     {
           new() { ID = 01, Name = "Спорт", Order = 0 },

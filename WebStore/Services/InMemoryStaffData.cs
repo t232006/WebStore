@@ -4,7 +4,7 @@ using WebStore.Servises.Interfaces;
 
 namespace WebStore.Servises
 {
-    public class InMemoryStaffData : IStaffData
+    public class InMemoryStaffData : IStaffData<Employee>
     {
         private readonly ICollection<Employee> staff;
         private readonly ILogger<InMemoryStaffData> logger;
