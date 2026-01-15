@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis.Elfie.Diagnostics;
 using System.Xml.Linq;
+using WebStore.Mapping;
 using WebStore.Models;
 using WebStore.Services;
 using WebStore.Servises.Interfaces;
@@ -32,14 +33,8 @@ namespace WebStore.Controllers
             Employee empl = new Employee();
             if (ID is null)
                 return View(new EmployeeViewModel());  
-            empl = _employees.GetByID((int)ID);
-            var evm = new EmployeeViewModel
-            {
-                ID = empl.ID,
-                Name = empl.Name,
-                Position = empl.Position,
-                DateOfBirth = empl.DateOfBirth,
-            }; 
+            empl = _employees.GetByID((int)ID)!;
+            var evm = empl.ToView();
             return View(evm);
         }
         [HttpPost]
@@ -49,13 +44,7 @@ namespace WebStore.Controllers
                 ModelState.AddModelError("DateOfBirth", "Слишком молод для работы здесь");*/
             if (!ModelState.IsValid)
                 return View();
-            var empl = new Employee
-            {
-                ID = evm.ID,
-                Name = evm.Name,
-                Position = evm.Position,
-                DateOfBirth = evm.DateOfBirth,
-            };
+            var empl = evm.FromView();
             if (empl.ID == 0)
             {
                 int _id = _employees.Insert(empl);
