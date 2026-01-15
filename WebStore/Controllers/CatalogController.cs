@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using WebStore.Domain.Base;
+using WebStore.Mapping;
 using WebStore.Servises.Interfaces;
 using WebStore.ViewModels;
 
@@ -19,13 +20,7 @@ namespace WebStore.Controllers
                 SectionID = filter.SectionID,
                 Products = products
                 .OrderBy(p=>p.Order)
-                .Select(p=>new ProductViewModel
-                {
-                    ID=p.ID,
-                    Name=p.Name,
-                    Price=p.Price,
-                    PictureUrl=p.ImageUrl
-                })
+                .ToView()!
             });
 
 
