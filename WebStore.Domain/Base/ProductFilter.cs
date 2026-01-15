@@ -6,7 +6,7 @@ namespace WebStore.Domain.Base
 {
     public class ProductFilter
     {
-        public int? BrandID;
-        public int? SectionID;
+        public int? BrandID { get; set; }
+        public int? SectionID { get; set; }
     }
 }
