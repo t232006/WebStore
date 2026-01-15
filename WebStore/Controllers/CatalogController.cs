@@ -10,18 +10,13 @@ namespace WebStore.Controllers
         private readonly IProductData pd;
 
         public CatalogController(IProductData PD) => pd = PD;
-        public IActionResult Index(int? BrandID, int? SectionID) 
+        public IActionResult Index([Bind("BrandID, SectionID")] ProductFilter filter) 
         {
-            var filter = new ProductFilter
-            {
-                BrandID = BrandID,
-                SectionID=SectionID
-            };
             var products = pd.GetProducts(filter);
             return View(new CatalogViewModel
             {
-                BrandID = BrandID,
-                SectionID = SectionID,
+                BrandID = filter.BrandID,
+                SectionID = filter.SectionID,
                 Products = products
                 .OrderBy(p=>p.Order)
                 .Select(p=>new ProductViewModel
