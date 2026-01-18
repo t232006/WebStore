@@ -3,7 +3,7 @@ using WebStore.Domain.Base;
 
 namespace WebStore.DAL.Context
 {
-    internal class WebStoreDB :DbContext
+    public class WebStoreDB :DbContext
     {
         public DbSet<Product> Products { get; set; }
         public DbSet<Section> Sections { get; set; }

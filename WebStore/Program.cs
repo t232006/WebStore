@@ -1,3 +1,5 @@
+using Microsoft.EntityFrameworkCore;
+using WebStore.DAL.Context;
 using WebStore.Models;
 using WebStore.Services;
 using WebStore.Services.Interfaces;
@@ -15,6 +17,7 @@ namespace WebStore
             builder.Services.AddScoped<IStaffData<Employee>, InMemoryStaffData>();
             builder.Services.AddScoped<IProductData, InMemoryProductData>();
             builder.Services.AddScoped<IBlogs, InMemoryBlogs>();
+            builder.Services.AddDbContext<WebStoreDB>(opt => opt.UseSqlServer(builder.Configuration.GetConnectionString("SQLServer")));
             builder.Services.AddControllersWithViews();
             var app = builder.Build();
             if (app.Environment.IsDevelopment()) 
