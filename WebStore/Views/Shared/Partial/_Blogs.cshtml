@@ -1,0 +1,42 @@
+﻿@model IEnumerable<BlogViewModel>
+<div class="blog-post-area">
+    <h2 class="title text-center">Latest From our Blog</h2>
+	@foreach(var bl in Model)
+    {
+	<div class="single-blog-post">
+		
+			<h3>@bl.Name</h3>
+			<div class="post-meta">
+				<ul>
+					<li><i class="fa fa-user"></i> @bl.Author</li>
+					<li><i class="fa fa-clock-o"></i> @bl.pubTime</li>
+					<li><i class="fa fa-calendar"></i> @bl.pubDate</li>
+				</ul>
+				<span>
+					@for (var star=1;star<=bl.Rate; star++)
+					{
+						<i class="fa fa-star"></i>
+					}
+					
+					
+					<i class="fa fa-star-half-o"></i>
+				</span>
+			</div>
+			<a href="">
+				<img src="images/blog/@bl.PictureUrl" alt="">
+			</a>
+			<p>@bl.Block</p>
+			<a class="btn btn-primary" href="">Read More</a>
+		</div>
+    }
+	
+	
+	<div class="pagination-area">
+		<ul class="pagination">
+			<li><a href="" class="active">1</a></li>
+			<li><a href="">2</a></li>
+			<li><a href="">3</a></li>
+			<li><a href=""><i class="fa fa-angle-double-right"></i></a></li>
+		</ul>
+	</div>
+</div>

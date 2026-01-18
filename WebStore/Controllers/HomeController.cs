@@ -1,13 +1,22 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using WebStore.Mapping;
 using WebStore.Models;
+using WebStore.Servises.Interfaces;
+using WebStore.ViewModels;
 
 namespace WebStore.Controllers
 {
     public class HomeController : Controller
     {
         
-        public IActionResult Index()
+        public IActionResult Index([FromServices] IProductData productData)
         {
+            var products = productData.GetProducts()
+                .OrderBy(p => p.Order)
+                .Take(6)
+                .Select(p => p.ToView());
+            ViewBag.Products = products;
+
             return View();
         }
         public IActionResult HelloID(string? ID)

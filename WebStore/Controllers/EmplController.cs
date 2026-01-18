@@ -2,8 +2,9 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis.Elfie.Diagnostics;
 using System.Xml.Linq;
+using WebStore.Mapping;
 using WebStore.Models;
-using WebStore.Servises;
+using WebStore.Services;
 using WebStore.Servises.Interfaces;
 using WebStore.ViewModels;
 
@@ -11,52 +12,43 @@ namespace WebStore.Controllers
 {
     public class EmplController:Controller
     {
-        private readonly IStaffData _employees;
-        public EmplController(IStaffData empl) => _employees = empl;
+        private readonly IStaffData<Employee> _employees;
+        public EmplController(IStaffData<Employee> empl) => _employees = empl;
         public IActionResult Index()
         {
             return View(_employees.GetAll());
         }
-        //[Route("Staff/info/{Id}")]
-        //[Route("staff/info/{Id}")]  //will be work as default
-        //[Route("[controller]/info/{Id}")]   //will be work
-        public IActionResult Details(int Id)
+        //[Route("Staff/info/{ID}")]
+        //[Route("staff/info/{ID}")]  //will be work as default
+        //[Route("[controller]/info/{ID}")]   //will be work
+        public IActionResult Details(int ID)
         {
-            var emp = _employees.GetByID(Id);
+            var emp = _employees.GetByID(ID);
             if (emp is null) return NotFound();
             return View(emp);
         }
         public IActionResult InsertEmp() => View("Edit", new EmployeeViewModel());
-        public IActionResult Edit(int? Id)
+        public IActionResult Edit(int? ID)
         {
             Employee empl = new Employee();
-            if (Id is null)
+            if (ID is null)
                 return View(new EmployeeViewModel());  
-            empl = _employees.GetByID((int)Id);
-            var evm = new EmployeeViewModel
-            {
-                Id = empl.Id,
-                Name = empl.Name,
-                Position = empl.Position,
-                DateOfBirth = empl.DateOfBirth,
-            }; 
+            empl = _employees.GetByID((int)ID)!;
+            var evm = empl.ToView();
             return View(evm);
         }
         [HttpPost]
         public IActionResult Edit(EmployeeViewModel? evm)
         {
-            
-            var empl = new Employee
-            {
-                Id = evm.Id,
-                Name = evm.Name,
-                Position = evm.Position,
-                DateOfBirth = evm.DateOfBirth,
-            };
-            if (empl.Id == 0)
+           /* if ((DateTime.Today - evm.DateOfBirth).TotalDays / 365 < 18)
+                ModelState.AddModelError("DateOfBirth", "Слишком молод для работы здесь");*/
+            if (!ModelState.IsValid)
+                return View();
+            var empl = evm.FromView();
+            if (empl.ID == 0)
             {
                 int _id = _employees.Insert(empl);
-                return RedirectToAction(nameof(Details), new { Id = _id });
+                return RedirectToAction(nameof(Details), new { ID = _id });
             }
                 
             else
@@ -71,7 +63,7 @@ namespace WebStore.Controllers
             if (empl is null) return NotFound();
             var evm = new EmployeeViewModel
             { 
-                Id = empl.Id,
+                ID = empl.ID,
                 Name = empl.Name,
                 Position = empl.Position,
                 DateOfBirth = empl.DateOfBirth,

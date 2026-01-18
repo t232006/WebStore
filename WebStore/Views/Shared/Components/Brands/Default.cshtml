@@ -1,0 +1,18 @@
+﻿@model IEnumerable<BrandsViewModel>
+<div class="brands_products">
+    <!--brands_products-->
+    <h2>Brands</h2>
+    @{
+        string? curController = ViewContext.RouteData.Values["controller"]?.ToString();
+    }
+    <div class="brands-name">
+        <ul class="nav nav-pills nav-stacked">
+            @foreach(var br in Model)
+            {
+               <li>
+                    <a asp-controller="@curController" asp-action="Index" asp-route-BrandID="@br.ID"> <span class="pull-right">(50)</span>@br.Name</a>
+               </li>  
+            }
+        </ul>
+    </div>
+</div><!--/brands_products-->

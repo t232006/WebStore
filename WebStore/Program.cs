@@ -1,3 +1,6 @@
+using WebStore.Models;
+using WebStore.Services;
+using WebStore.Services.Interfaces;
 using WebStore.Servises;
 using WebStore.Servises.Interfaces;
 
@@ -8,8 +11,10 @@ namespace WebStore
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
-            
-            builder.Services.AddScoped<IStaffData, InMemoryStaffData>();
+            builder.Services.AddScoped<IStaffData<Visitors>, InMemoryVisitorsData>();
+            builder.Services.AddScoped<IStaffData<Employee>, InMemoryStaffData>();
+            builder.Services.AddScoped<IProductData, InMemoryProductData>();
+            builder.Services.AddScoped<IBlogs, InMemoryBlogs>();
             builder.Services.AddControllersWithViews();
             var app = builder.Build();
             if (app.Environment.IsDevelopment()) 
