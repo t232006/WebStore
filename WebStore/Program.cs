@@ -11,7 +11,7 @@ namespace WebStore
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
             builder.Services.AddScoped<IStaffData<Visitors>, InMemoryVisitorsData>();
@@ -22,11 +22,17 @@ namespace WebStore
             builder.Services.AddScoped<DBInitializer>();
             builder.Services.AddControllersWithViews();
             var app = builder.Build();
-            if (app.Environment.IsDevelopment()) 
+            using (var scope = app.Services.CreateScope())
+            {
+                var db_init = scope.ServiceProvider.GetRequiredService<DBInitializer>();
+                await db_init.InitializationDB(app.Configuration.GetValue("DB_recreate", false));
+            }
+
+            if (app.Environment.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
-            
+
             app.UseStaticFiles();
             app.UseRouting();
             app.MapGet("/greetings", () => app.Configuration["ServerGreetings"]);

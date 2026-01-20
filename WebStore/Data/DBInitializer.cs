@@ -1,13 +1,14 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using WebStore.DAL.Context;
 
 namespace WebStore.Data
 {
     public class DBInitializer
     {
-        private readonly DbContext db;
+        private readonly WebStoreDB db;
         private readonly ILogger logger;
 
-        public DBInitializer(DbContext _db, ILogger _logger)
+        public DBInitializer(WebStoreDB _db, ILogger _logger)
         {
             this.db = _db;
             this.logger = _logger;
@@ -34,7 +35,7 @@ namespace WebStore.Data
         private async Task InitializateProducts(CancellationToken Cancel = default)
         {
             logger.LogInformation("Coping from Products...");
-            if (await db.Products.AnyAsync(Cancel).ConfigureAwait(false))
+            if (await db. Products.AnyAsync(Cancel).ConfigureAwait(false))
             {
                 logger.LogInformation("There are some records");
                 return;
