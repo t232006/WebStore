@@ -6,9 +6,9 @@ namespace WebStore.Data
     public class DBInitializer
     {
         private readonly WebStoreDB db;
-        private readonly ILogger logger;
+        private readonly ILogger<DBInitializer> logger;
 
-        public DBInitializer(WebStoreDB _db, ILogger _logger)
+        public DBInitializer(WebStoreDB _db, ILogger<DBInitializer> _logger)
         {
             this.db = _db;
             this.logger = _logger;
