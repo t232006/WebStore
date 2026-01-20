@@ -2,9 +2,8 @@ using Microsoft.EntityFrameworkCore;
 using WebStore.DAL.Context;
 using WebStore.Data;
 using WebStore.Models;
-using WebStore.Services;
+using WebStore.Services.InMemory;
 using WebStore.Services.Interfaces;
-using WebStore.Servises;
 using WebStore.Servises.Interfaces;
 
 namespace WebStore
@@ -25,7 +24,8 @@ namespace WebStore
             using (var scope = app.Services.CreateScope())
             {
                 var db_init = scope.ServiceProvider.GetRequiredService<DBInitializer>();
-                await db_init.InitializationDB(app.Configuration.GetValue("DB_recreate", false));
+                await db_init.InitializationDB(app.Configuration.GetValue("DB_recreate", false),
+                                                app.Configuration.GetValue("AddTestData", true));
             }
 
             if (app.Environment.IsDevelopment())

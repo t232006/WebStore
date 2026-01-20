@@ -2,7 +2,7 @@
 using WebStore.Models;
 using WebStore.Servises.Interfaces;
 
-namespace WebStore.Servises
+namespace WebStore.Services.InMemory
 {
     public class InMemoryStaffData : IStaffData<Employee>
     {

@@ -1,9 +1,8 @@
 ﻿using WebStore.Data;
 using WebStore.Models;
-using WebStore.Servises;
 using WebStore.Servises.Interfaces;
 
-namespace WebStore.Services
+namespace WebStore.Services.InMemory
 {
     public class InMemoryVisitorsData : IStaffData<Visitors>
     {

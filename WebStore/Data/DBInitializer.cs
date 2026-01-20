@@ -23,14 +23,18 @@ namespace WebStore.Data
                 logger.LogInformation("Erasing failed");
             return result;
         }
-        public async Task InitializationDB(bool RemoveFirst, CancellationToken Cancel = default)
+        public async Task InitializationDB(bool RemoveBefore, bool AddTestData, CancellationToken Cancel = default)
         {
-            if (RemoveFirst) await EraseDB(Cancel).ConfigureAwait(false);
+            if (RemoveBefore) await EraseDB(Cancel).ConfigureAwait(false);
             logger.LogInformation("Starting migration...");
             await db.Database.MigrateAsync(Cancel).ConfigureAwait(false);
             logger.LogInformation("Migration complete");
-            await InitializateProducts();
-            logger.LogInformation("Initialization complete");
+            if (AddTestData)
+            {
+                await InitializateProducts();
+                logger.LogInformation("Initialization complete");
+            }
+            
         }
         private async Task InitializateProducts(CancellationToken Cancel = default)
         {
