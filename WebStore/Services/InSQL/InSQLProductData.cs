@@ -19,20 +19,20 @@ namespace WebStore.Services.InSQL
 
         public IEnumerable<Product> GetProducts(ProductFilter? filter = null)
         {
-            var result = db.Products;
+            IQueryable<Product> result = db.Products;
             if (filter != null)
             {
-                if (filter.BrandID != null)
-                    result = (Microsoft.EntityFrameworkCore.DbSet<Product>)result.Where(p => p.BrandId == filter.BrandID).OrderBy(p => p.Order);
+                if (filter.BrandID.HasValue)
+                    result = result.Where(p => p.BrandId == filter.BrandID).OrderBy(p => p.Order);
                 if (filter.SectionID != null)
-                    result = (Microsoft.EntityFrameworkCore.DbSet<Product>)result.Where(p => p.SectionId == filter.SectionID).OrderBy(p => p.Order);
+                    result = result.Where(p => p.SectionId == filter.SectionID).OrderBy(p => p.Order);
             }
             return result;
         }
 
         public IEnumerable<Section> GetSections()
         {
-            throw new NotImplementedException();
+            return db.Sections;
         }
     }
 }

@@ -3,6 +3,7 @@ using WebStore.DAL.Context;
 using WebStore.Data;
 using WebStore.Models;
 using WebStore.Services.InMemory;
+using WebStore.Services.InSQL;
 using WebStore.Services.Interfaces;
 using WebStore.Servises.Interfaces;
 
@@ -15,7 +16,8 @@ namespace WebStore
             var builder = WebApplication.CreateBuilder(args);
             builder.Services.AddScoped<IStaffData<Visitors>, InMemoryVisitorsData>();
             builder.Services.AddScoped<IStaffData<Employee>, InMemoryStaffData>();
-            builder.Services.AddScoped<IProductData, InMemoryProductData>();
+            //builder.Services.AddScoped<IProductData, InMemoryProductData>();
+            builder.Services.AddScoped<IProductData, InSQLProductData>();
             builder.Services.AddScoped<IBlogs, InMemoryBlogs>();
             builder.Services.AddDbContext<WebStoreDB>(opt => opt.UseSqlServer(builder.Configuration.GetConnectionString("SQLServer")));
             builder.Services.AddScoped<DBInitializer>();
