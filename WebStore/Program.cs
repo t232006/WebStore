@@ -16,11 +16,13 @@ namespace WebStore
         {
             var builder = WebApplication.CreateBuilder(args);
             builder.Services.AddScoped<IStaffData<Visitors>, InMemoryVisitorsData>();
-            builder.Services.AddScoped<IStaffData<Employee>, InMemoryStaffData>();
+            //builder.Services.AddScoped<IStaffData<Employee>, InMemoryStaffData>();
+            builder.Services.AddScoped<IStaffData<Employee>, InSQLStaffData>();
             //builder.Services.AddScoped<IProductData, InMemoryProductData>();
             builder.Services.AddScoped<IProductData, InSQLProductData>();
             builder.Services.AddScoped<IBlogs, InMemoryBlogs>();
             builder.Services.AddDbContext<WebStoreDB>(opt => opt.UseSqlServer(builder.Configuration.GetConnectionString("SQLServer")));
+            
             builder.Services.AddScoped<DBInitializer>();
             builder.Services.AddControllersWithViews();
             var app = builder.Build();

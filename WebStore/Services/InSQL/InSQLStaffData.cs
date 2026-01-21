@@ -25,7 +25,11 @@ namespace WebStore.Services.InSQL
                 return false;
             }
             else
+            {
                 db.Employees.Remove(emp);
+                db.SaveChanges();
+            } 
+                 
             logger.LogInformation($"{0} is deleted", emp);
             return true;
         }
@@ -42,6 +46,7 @@ namespace WebStore.Services.InSQL
             _empl.Name = empl.Name;
             _empl.DateOfBirth = empl.DateOfBirth;
             _empl.Position = empl.Position;
+            db.SaveChanges();
             logger.LogInformation("Employee {0} is edited", empl);
             return true;
         }
@@ -61,7 +66,10 @@ namespace WebStore.Services.InSQL
             if (empl is null) throw new ArgumentNullException(nameof(Employee));
             if (db.Employees.Contains(empl)) return db.Employees.FirstOrDefault(e => e == empl).ID;
             else
+            { 
                 db.Employees.Add(empl);
+                db.SaveChanges();
+            } 
             logger.LogInformation($"{0} is added",empl);
             return db.Employees.Max(e => e.ID);
         }
