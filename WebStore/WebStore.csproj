@@ -9,6 +9,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Models\Employee.cs" />
+    <Compile Remove="Services\StaffData.cs" />
     <Compile Remove="Views\Shared\Partial\_Blogs.cs" />
     <Compile Remove="Views\Shared\Partial\_Blogs.cshtml.cs" />
   </ItemGroup>

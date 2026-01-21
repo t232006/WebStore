@@ -4,6 +4,7 @@ using WebStore.Models;
 //using static System.Collections.Specialized.BitVector32;
 using WebStore.Domain.Base;
 using Product = WebStore.Domain.Base.Product;
+using Employee = WebStore.Domain.Base.Employee;
 
 namespace WebStore.Data
 {

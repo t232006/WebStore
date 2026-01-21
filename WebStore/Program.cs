@@ -6,6 +6,7 @@ using WebStore.Services.InMemory;
 using WebStore.Services.InSQL;
 using WebStore.Services.Interfaces;
 using WebStore.Servises.Interfaces;
+using Employee = WebStore.Domain.Base.Employee;
 
 namespace WebStore
 {

@@ -1,23 +1,17 @@
-﻿using WebStore.Data;
-//using WebStore.Models;
+﻿using WebStore.Domain.Base;
 using WebStore.Servises.Interfaces;
-using Employee = WebStore.Domain.Base.Employee;
 
-namespace WebStore.Services.InMemory
+namespace WebStore.Services
 {
-    public class InMemoryStaffData : IStaffData<Employee>
+    public class StaffData<T>:IStaffData<Employee> where T:IQueryable<Employee>
     {
-        private readonly ICollection<Employee> staff;
-        private readonly ILogger<InMemoryStaffData> logger;
-        private int LastId;
+        private readonly T staff;
+        private readonly ILogger<StaffData<T>> logger;
 
-        public InMemoryStaffData(ILogger<InMemoryStaffData> _logger)
-        {
-            this.logger = _logger;
-            staff = TestData._employees;
-            if (staff.Count > 0)
-                LastId = staff.Max(t => t.ID) + 1;
-            else LastId = 1;
+        public StaffData(T _staff, ILogger<StaffData<T>> logger)
+            {
+            this.staff = _staff;
+            this.logger = logger;
         }
         public bool Delete(int ID)
         {
@@ -40,8 +34,8 @@ namespace WebStore.Services.InMemory
             {
                 logger.LogWarning("During edit attempt employee with ID:{0} - record is not found", empl.ID);
                 return false;
-            }    
-                
+            }
+
 
             _empl.Name = empl.Name;
             _empl.DateOfBirth = empl.DateOfBirth;
@@ -71,4 +65,5 @@ namespace WebStore.Services.InMemory
             return empl.ID;
         }
     }
+}
 }
