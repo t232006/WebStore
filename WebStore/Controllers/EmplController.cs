@@ -7,7 +7,7 @@ using WebStore.Models;
 using WebStore.Services;
 using WebStore.Servises.Interfaces;
 using WebStore.ViewModels;
-using Employee = WebStore.Domain.Base.Employee;
+using WebStore.Domain.Base;
 
 namespace WebStore.Controllers
 {
@@ -46,7 +46,7 @@ namespace WebStore.Controllers
             if (!ModelState.IsValid)
                 return View();
             var empl = evm.FromView();
-            if (empl. ID == 0)
+            if (empl.ID == 0)
             {
                 int _id = _employees.Insert(empl);
                 return RedirectToAction(nameof(Details), new { ID = _id });

@@ -1,5 +1,5 @@
 ﻿using System.Diagnostics.CodeAnalysis;
-using WebStore.Models;
+using WebStore.Domain.Base;
 using WebStore.Servises.Interfaces;
 using WebStore.ViewModels;
 
