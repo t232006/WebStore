@@ -14,8 +14,8 @@ namespace WebStore
         public static async Task Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
-            builder.Services.AddScoped<IStaffData<Visitor>, InMemoryVisitorsData>();
             //builder.Services.AddScoped<IStaffData<Visitor>, InMemoryVisitorsData>();
+            builder.Services.AddScoped<IStaffData<Visitor>, InSQLVisitorsData>();
             //builder.Services.AddScoped<IStaffData<Employee>, InMemoryStaffData>();
             builder.Services.AddScoped<IStaffData<Employee>, InSQLStaffData>();
             //builder.Services.AddScoped<IProductData, InMemoryProductData>();
