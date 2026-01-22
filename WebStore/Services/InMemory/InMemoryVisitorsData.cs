@@ -1,12 +1,12 @@
 ﻿using WebStore.Data;
-using WebStore.Models;
+using WebStore.Domain.Base;
 using WebStore.Servises.Interfaces;
 
 namespace WebStore.Services.InMemory
 {
-    public class InMemoryVisitorsData : IStaffData<Visitors>
+    public class InMemoryVisitorsData : IStaffData<Visitor>
     {
-        private readonly ICollection<Visitors> VisitorsList;
+        private readonly ICollection<Visitor> VisitorsList;
         int LastID;
         private readonly ILogger<InMemoryStaffData> logger;
 
@@ -18,20 +18,20 @@ namespace WebStore.Services.InMemory
         }
         public bool Delete(int ID)
         {
-            Visitors? vis = VisitorsList.FirstOrDefault(v => v.ID == ID);
+            Visitor? vis = VisitorsList.FirstOrDefault(v => v.ID == ID);
             if (vis is null) return false; else
                 VisitorsList.Remove(vis);
             logger.LogInformation("User with ID:{0} is deleted", ID);
             return true;
         }
-        public Visitors? GetByID(int ID)
+        public Visitor? GetByID(int ID)
         {
             return VisitorsList.FirstOrDefault(v => v.ID == ID);
         }
-        public bool Edit(Visitors empl)
+        public bool Edit(Visitor empl)
         {
             if (empl is null) throw new ArgumentNullException(nameof(empl));
-            Visitors? vis = GetByID(empl.ID);
+            Visitor? vis = GetByID(empl.ID);
             if (vis is null) return false;
             if (VisitorsList.FirstOrDefault(v => v.login == empl.login) is not null)
             {
@@ -44,7 +44,7 @@ namespace WebStore.Services.InMemory
             logger.LogInformation("User with ID:{0} is edited", empl.ID);
             return true;
         }
-        public int Insert(Visitors empl)
+        public int Insert(Visitor empl)
         {
             if (empl is null) throw new ArgumentNullException(nameof(empl));
             if (VisitorsList.Contains(empl)) return empl.ID;
@@ -54,7 +54,7 @@ namespace WebStore.Services.InMemory
             VisitorsList.Add(empl);
             return LastID++; 
         }
-        IEnumerable<Visitors> IStaffData<Visitors>.GetAll()
+        IEnumerable<Visitor> IStaffData<Visitor>.GetAll()
         {
             return VisitorsList;
         }

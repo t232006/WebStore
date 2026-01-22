@@ -1,12 +1,11 @@
 using Microsoft.EntityFrameworkCore;
 using WebStore.DAL.Context;
 using WebStore.Data;
-using WebStore.Models;
 using WebStore.Services.InMemory;
 using WebStore.Services.InSQL;
 using WebStore.Services.Interfaces;
 using WebStore.Servises.Interfaces;
-using Employee = WebStore.Domain.Base.Employee;
+using WebStore.Domain.Base;
 
 namespace WebStore
 {
@@ -15,7 +14,7 @@ namespace WebStore
         public static async Task Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
-            builder.Services.AddScoped<IStaffData<Visitors>, InMemoryVisitorsData>();
+            builder.Services.AddScoped<IStaffData<Visitor>, InMemoryVisitorsData>();
             //builder.Services.AddScoped<IStaffData<Employee>, InMemoryStaffData>();
             builder.Services.AddScoped<IStaffData<Employee>, InSQLStaffData>();
             //builder.Services.AddScoped<IProductData, InMemoryProductData>();

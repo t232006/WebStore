@@ -1,27 +1,27 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using WebStore.Models;
 using WebStore.Servises.Interfaces;
 using WebStore.ViewModels;
+using WebStore.Domain.Base;
 
 namespace WebStore.Controllers
 {
     public class VisitorsController:Controller
     {
-        private readonly IStaffData<Visitors> _visitors;
-        public VisitorsController(IStaffData<Visitors> visitors) => _visitors = visitors; 
+        private readonly IStaffData<Visitor> _visitors;
+        public VisitorsController(IStaffData<Visitor> visitors) => _visitors = visitors; 
         public IActionResult Index()
         {
             return View(_visitors.GetAll());
         } 
         public IActionResult Details (int ID)
         {
-            Visitors? vis = _visitors.GetByID(ID);
+            Visitor? vis = _visitors.GetByID(ID);
             if (vis is null) return NotFound();
             return View(vis);
         }
         public IActionResult DeleteUser(int ID)
         {
-            Visitors? vis = _visitors.GetByID(ID);
+            Visitor? vis = _visitors.GetByID(ID);
             if (vis is null) return NotFound();
             return View(new VisitorsViewModel
             {
@@ -58,7 +58,7 @@ namespace WebStore.Controllers
         public IActionResult EditUser(VisitorsViewModel vvm)
         {
             if (!ModelState.IsValid) return View();
-            var vis = new Visitors
+            var vis = new Visitor
             {
                 ID = vvm.ID,
                 password = vvm.password,

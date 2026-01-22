@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using WebStore.DAL.Context;
+using WebStore.Domain.Base;
 
 namespace WebStore.Data
 {
@@ -31,61 +32,34 @@ namespace WebStore.Data
             logger.LogInformation("Migration complete");
             if (AddTestData)
             {
-                await InitializateProducts();
-                await InitializeStaff();
+                await Initialize<Employee>("Employees", TestData._employees);
+                await Initialize<Visitor>("Visitors", TestData._visitors);
+                await Initialize<Blog>("Blogs",TestData.Blogs);
+                await Initialize<Brand>("Brand", TestData.Brands);
+                await Initialize<Section>("Section", TestData.Sections);
+                await Initialize<Product>("Product", TestData.Products);
+
                 logger.LogInformation("Initialization complete");
             }
             
         }
-        private async Task InitializeStaff(CancellationToken Cancel = default)
+        private async Task Initialize<T>(string ent, IEnumerable<T> mas, CancellationToken Cancel=default)
         {
-            logger.LogInformation("Coping from _employees...");
+            logger.LogInformation("Coping from {0}...",ent);
             if (await db.Employees.AnyAsync(Cancel).ConfigureAwait(false))
             {
                 logger.LogInformation("There are some records");
                 return;
             }
             using var transaction = await db.Database.BeginTransactionAsync();
-            logger.LogInformation("Employees copy...");
-            await db.AddRangeAsync(TestData._employees, Cancel);
-            await db.Database.ExecuteSqlRawAsync("set identity_insert Employees on");
+            logger.LogInformation("{0} copy...",ent);
+            await db.AddRangeAsync(mas.Cast<object>().ToArray(), Cancel);
+            //await db.AddRangeAsync(mas, Cancel);
+            await db.Database.ExecuteSqlRawAsync("set identity_insert "+ent+" on");
             await db.SaveChangesAsync();
-            await db.Database.ExecuteSqlRawAsync("set identity_insert Employees off");
-            logger.LogInformation("Employees copy complete");
+            await db.Database.ExecuteSqlRawAsync("set identity_insert "+ent+" off");
+            logger.LogInformation("{0} copy complete", ent);
             await transaction.CommitAsync();
-        }
-        private async Task InitializateProducts(CancellationToken Cancel = default)
-        {
-            logger.LogInformation("Coping from Products...");
-            if (await db. Products.AnyAsync(Cancel).ConfigureAwait(false))
-            {
-                logger.LogInformation("There are some records");
-                return;
-            }
-            using var transaction = await db.Database.BeginTransactionAsync(Cancel);
-
-            logger.LogInformation("Sections copy...");
-            await db.AddRangeAsync(TestData.Sections, Cancel);
-            await db.Database.ExecuteSqlRawAsync("set identity_insert Sections on");
-            await db.SaveChangesAsync();
-            await db.Database.ExecuteSqlRawAsync("set identity_insert Sections off");
-            logger.LogInformation("Sections copy complete");
-
-            logger.LogInformation("Brands copy...");
-            await db.AddRangeAsync(TestData.Brands, Cancel);
-            await db.Database.ExecuteSqlRawAsync("set identity_insert Brands on");
-            await db.SaveChangesAsync();
-            await db.Database.ExecuteSqlRawAsync("set identity_insert Brands off");
-            logger.LogInformation("Brands copy complete");
-
-            logger.LogInformation("Products copy...");
-            await db.AddRangeAsync(TestData.Products, Cancel);
-            await db.Database.ExecuteSqlRawAsync("set identity_insert Products on");
-            await db.SaveChangesAsync();
-            await db.Database.ExecuteSqlRawAsync("set identity_insert Products off");
-            logger.LogInformation("Products copy complete");
-
-            await transaction.CommitAsync(Cancel); 
         }
     
     }

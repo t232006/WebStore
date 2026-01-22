@@ -14,15 +14,15 @@ namespace WebStore.Controllers
         {
             var filter = new ProductFilter{BrandID=BrandID, SectionID=SectionID};
             var blogs = bl.GetBlogs(filter)
-                .OrderBy(b => b.publicDate)
+                .OrderBy(b => b.PublicDate)
                 .Select(b => new BlogViewModel
                 {
                     Author = b.Author,
                     Name = b.Name,
                     Rate = b.Rate,
                     PictureUrl=b.PictureUrl, 
-                    Block = b.Block,
-                    publicDate = b.publicDate,
+                    Block = b.TextBlock,
+                    publicDate = b.PublicDate,
                     SectionID =b.SectionID,
                     BrandID=b.BrandID
                 });

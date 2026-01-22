@@ -1,6 +1,5 @@
 ﻿using Microsoft.Build.Tasks.Deployment.Bootstrapper;
 //using System.Drawing.Drawing2D;
-using WebStore.Models;
 //using static System.Collections.Specialized.BitVector32;
 using WebStore.Domain.Base;
 using Product = WebStore.Domain.Base.Product;
@@ -17,7 +16,7 @@ namespace WebStore.Data
             new() { ID = 3, Name = "Charlie", Position = "Manager", DateOfBirth=new DateTime(2000,10,10) }
         };
 
-        public static List<Visitors> _visitors = new List<Visitors>
+        public static List<Visitor> _visitors = new List<Visitor>
         {
             new() { ID = 1, Name = "Natali", login="nat01", e_mail="nat@gmail.com", regData=new DateTime(2013,12,12) },
             new() { ID = 2, Name = "Kristian", login="kri01", e_mail = "Designer@yandex.ru" , regData=new DateTime(2013,11,11) },
@@ -92,22 +91,22 @@ namespace WebStore.Data
                 PictureUrl="blog-one.jpg",
                 Author = "Piter Pen",
                 BrandID = 4,
-                Block = "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
-                publicDate = new DateTime(2013, 10, 23, 15, 29, 51),
+                TextBlock = "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
+                PublicDate = new DateTime(2013, 10, 23, 15, 29, 51),
         },
         new() {ID=2, Name = "New brands are outsiders in quality",
                 Author = "Janna Sid",
                 PictureUrl="blog-three.jpg",
-                Block = "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
-                publicDate = new DateTime(2013, 10, 24, 15, 29, 51),
+                TextBlock = "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
+                PublicDate = new DateTime(2013, 10, 24, 15, 29, 51),
         },
         new() {ID=3, Name = "Whild style coming to the release",
                 Author = "Piter Pen",
                 PictureUrl="blog-two.jpg",
                 BrandID=4,
                 SectionID=16,
-                Block = "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
-                publicDate = new DateTime(2013, 10, 25, 15, 29, 51),
+                TextBlock = "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
+                PublicDate = new DateTime(2013, 10, 25, 15, 29, 51),
         },
 
 

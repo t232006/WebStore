@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis.Elfie.Diagnostics;
 using System.Xml.Linq;
 using WebStore.Mapping;
-using WebStore.Models;
 using WebStore.Services;
 using WebStore.Servises.Interfaces;
 using WebStore.ViewModels;
