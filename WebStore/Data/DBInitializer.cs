@@ -32,12 +32,43 @@ namespace WebStore.Data
             logger.LogInformation("Migration complete");
             if (AddTestData)
             {
-                await Initialize<Employee>("Employees", TestData._employees);
-                await Initialize<Visitor>("Visitors", TestData._visitors);
-                await Initialize<Blog>("Blogs",TestData.Blogs);
-                await Initialize<Brand>("Brand", TestData.Brands);
-                await Initialize<Section>("Section", TestData.Sections);
-                await Initialize<Product>("Product", TestData.Products);
+                logger.LogInformation("Coping from Employee...");
+                if (await db.Employees.AnyAsync(Cancel).ConfigureAwait(false))
+                {
+                    logger.LogInformation("There are some records");
+                    return;
+                }else
+                    await Initialize<Employee>("Employees", TestData._employees);
+
+                logger.LogInformation("Coping from Visitors...");
+                if (await db.Visitors.AnyAsync(Cancel).ConfigureAwait(false))
+                {
+                    logger.LogInformation("There are some records");
+                    return;
+                }else
+                    await Initialize<Visitor>("Visitors", TestData._visitors);
+
+                logger.LogInformation("Coping from Blogs...");
+                if (await db.Blogs.AnyAsync(Cancel).ConfigureAwait(false))
+                {
+                    logger.LogInformation("There are some records");
+                    return;
+                } else
+                    await Initialize<Blog>("Blogs", TestData.Blogs);
+
+                logger.LogInformation("Coping from Products...");
+                if (await db.Products.AnyAsync(Cancel).ConfigureAwait(false))
+                {
+                    logger.LogInformation("There are some records");
+                    return;
+                }
+                else
+                {
+                    await Initialize<Brand>("Brands", TestData.Brands);
+                    await Initialize<Section>("Sections", TestData.Sections);
+                    await Initialize<Product>("Products", TestData.Products);
+                }
+                    
 
                 logger.LogInformation("Initialization complete");
             }
@@ -45,12 +76,7 @@ namespace WebStore.Data
         }
         private async Task Initialize<T>(string ent, IEnumerable<T> mas, CancellationToken Cancel=default)
         {
-            logger.LogInformation("Coping from {0}...",ent);
-            if (await db.Employees.AnyAsync(Cancel).ConfigureAwait(false))
-            {
-                logger.LogInformation("There are some records");
-                return;
-            }
+            
             using var transaction = await db.Database.BeginTransactionAsync();
             logger.LogInformation("{0} copy...",ent);
             await db.AddRangeAsync(mas.Cast<object>().ToArray(), Cancel);

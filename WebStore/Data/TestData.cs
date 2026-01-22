@@ -18,9 +18,9 @@ namespace WebStore.Data
 
         public static List<Visitor> _visitors = new List<Visitor>
         {
-            new() { ID = 1, Name = "Natali", login="nat01", e_mail="nat@gmail.com", regData=new DateTime(2013,12,12) },
-            new() { ID = 2, Name = "Kristian", login="kri01", e_mail = "Designer@yandex.ru" , regData=new DateTime(2013,11,11) },
-            new() { ID = 3, Name = "Karl", login="kar01",e_mail = "Manager@gmail.com", regData=new DateTime(2013,10,10) }
+            new() { ID = 1, Name = "Natali", login="nat01", password="123",e_mail="nat@gmail.com", regData=new DateTime(2013,12,12) },
+            new() { ID = 2, Name = "Kristian", login="kri01",password="123", e_mail = "Designer@yandex.ru" , regData=new DateTime(2013,11,11) },
+            new() { ID = 3, Name = "Karl", login="kar01",password="123", e_mail = "Manager@gmail.com", regData=new DateTime(2013,10,10) }
         };
 
         public static IEnumerable<Section> Sections { get; } = new Section[]
