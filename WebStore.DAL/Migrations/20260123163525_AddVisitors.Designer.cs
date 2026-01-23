@@ -12,7 +12,7 @@ using WebStore.DAL.Context;
 namespace WebStore.DAL.Migrations
 {
     [DbContext(typeof(WebStoreDB))]
-    [Migration("20260121181223_AddVisitors")]
+    [Migration("20260123163525_AddVisitors")]
     partial class AddVisitors
     {
         /// <inheritdoc />
@@ -33,11 +33,10 @@ namespace WebStore.DAL.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
 
-                    b.Property<string>("Author")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("AuthorID")
+                        .HasColumnType("int");
 
-                    b.Property<int>("BrandID")
+                    b.Property<int?>("BrandID")
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
@@ -53,7 +52,7 @@ namespace WebStore.DAL.Migrations
                     b.Property<short>("Rate")
                         .HasColumnType("smallint");
 
-                    b.Property<int>("SectionID")
+                    b.Property<int?>("SectionID")
                         .HasColumnType("int");
 
                     b.Property<string>("TextBlock")
@@ -61,6 +60,12 @@ namespace WebStore.DAL.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("ID");
+
+                    b.HasIndex("AuthorID");
+
+                    b.HasIndex("BrandID");
+
+                    b.HasIndex("SectionID");
 
                     b.ToTable("Blogs");
                 });
@@ -151,7 +156,7 @@ namespace WebStore.DAL.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
 
-                    b.Property<int>("BrandId")
+                    b.Property<int?>("BrandId")
                         .HasColumnType("int");
 
                     b.Property<string>("ImageUrl")
@@ -204,6 +209,8 @@ namespace WebStore.DAL.Migrations
 
                     b.HasIndex("Name");
 
+                    b.HasIndex("ParentID");
+
                     b.ToTable("Sections");
                 });
 
@@ -242,6 +249,29 @@ namespace WebStore.DAL.Migrations
                     b.ToTable("Visitors");
                 });
 
+            modelBuilder.Entity("WebStore.Domain.Base.Blog", b =>
+                {
+                    b.HasOne("WebStore.Domain.Base.Visitor", "Author")
+                        .WithMany()
+                        .HasForeignKey("AuthorID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("WebStore.Domain.Base.Brand", "Brand")
+                        .WithMany()
+                        .HasForeignKey("BrandID");
+
+                    b.HasOne("WebStore.Domain.Base.Section", "Section")
+                        .WithMany()
+                        .HasForeignKey("SectionID");
+
+                    b.Navigation("Author");
+
+                    b.Navigation("Brand");
+
+                    b.Navigation("Section");
+                });
+
             modelBuilder.Entity("WebStore.Domain.Base.Comment", b =>
                 {
                     b.HasOne("WebStore.Domain.Base.Visitor", "Author")
@@ -265,9 +295,7 @@ namespace WebStore.DAL.Migrations
                 {
                     b.HasOne("WebStore.Domain.Base.Brand", "Brand")
                         .WithMany()
-                        .HasForeignKey("BrandId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("BrandId");
 
                     b.HasOne("WebStore.Domain.Base.Section", "Section")
                         .WithMany()
@@ -278,6 +306,15 @@ namespace WebStore.DAL.Migrations
                     b.Navigation("Brand");
 
                     b.Navigation("Section");
+                });
+
+            modelBuilder.Entity("WebStore.Domain.Base.Section", b =>
+                {
+                    b.HasOne("WebStore.Domain.Base.Section", "Parent")
+                        .WithMany()
+                        .HasForeignKey("ParentID");
+
+                    b.Navigation("Parent");
                 });
 #pragma warning restore 612, 618
         }

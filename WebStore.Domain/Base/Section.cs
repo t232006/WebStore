@@ -10,7 +10,7 @@ namespace WebStore.Domain.Base
         public int Order { get; set; }
         public int? ParentID { get; set; }
         [ForeignKey(nameof(ParentID))]
-        Section? Parent { get; set; }
+        public Section? Parent { get; set; }
         ICollection<Product> Products { get; set; } 
     }
 

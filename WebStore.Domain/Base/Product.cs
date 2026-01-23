@@ -16,7 +16,7 @@ namespace WebStore.Domain.Base
         public int SectionId { get; set; }
         [ForeignKey(nameof(SectionId))]
         public Section Section { get; set; }
-        public int BrandId { get; set; }
+        public int? BrandId { get; set; }
         public Brand? Brand { get; set; }
         public int Order { get ; set ; }
     }

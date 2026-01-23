@@ -1,9 +1,11 @@
-﻿namespace WebStore.ViewModels
+﻿using WebStore.Domain.Base;
+
+namespace WebStore.ViewModels
 {
     public class BlogViewModel
     {
         public string Name { get; set; } = null!;
-        public string Author { get; set; } = null!;
+        public Visitor Author { get; set; }
         public string Block { get; set; } = null!;
         public short Rate { get; set; } = 3;
         public string? PictureUrl { get; set; }
