@@ -6,6 +6,8 @@ using WebStore.Services.InSQL;
 using WebStore.Services.Interfaces;
 using WebStore.Servises.Interfaces;
 using WebStore.Domain.Base;
+using WebStore.Domain.Identity;
+using Microsoft.AspNetCore.Identity;
 
 namespace WebStore
 {
@@ -22,6 +24,39 @@ namespace WebStore
             builder.Services.AddScoped<IProductData, InSQLProductData>();
             //builder.Services.AddScoped<IBlogs, InMemoryBlogs>();
             builder.Services.AddScoped<IBlogs, InSQLBlogs>();
+
+            builder.Services.AddIdentity<User, Role>(/*opt => { }*/)
+                .AddEntityFrameworkStores<WebStoreDB>()
+                .AddDefaultTokenProviders();
+            builder.Services.Configure<IdentityOptions>(opt =>
+#if DEBUG
+            {
+                opt.Password.RequireNonAlphanumeric = false;
+                opt.Password.RequireUppercase = false;
+                opt.Password.RequiredLength = 3;
+                opt.Password.RequireLowercase = false;
+                opt.Password.RequiredUniqueChars = 3;
+                opt.Password.RequireDigit = false;
+                opt.User.AllowedUserNameCharacters = "qwertyuiopasdfghjklzxcvbnm1234567890QWERTYUIOPASDFGHJKLZXCVBNM";
+                opt.User.RequireUniqueEmail = false;
+                opt.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromSeconds(34);
+                opt.Lockout.AllowedForNewUsers = false;
+                opt.Lockout.MaxFailedAccessAttempts = 6;
+            }
+#endif
+
+            );
+            builder.Services.ConfigureApplicationCookie(opt =>
+            {
+                opt.Cookie.Name = "GB.WebStore";
+                opt.Cookie.HttpOnly = true;
+                opt.ExpireTimeSpan = TimeSpan.FromDays(10);
+                opt.LoginPath = "/Account/Login";
+                opt.LogoutPath = "/Account/Logout";
+                opt.AccessDeniedPath = "/Account/AcessDenied";
+                opt.SlidingExpiration = true;
+            });
+
             builder.Services.AddDbContext<WebStoreDB>(opt => opt.UseSqlServer(builder.Configuration.GetConnectionString("SQLServer")));
             
             builder.Services.AddScoped<DBInitializer>();
