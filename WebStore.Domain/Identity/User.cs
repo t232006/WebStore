@@ -10,6 +10,8 @@ namespace WebStore.Domain.Identity
     {
         public DateTime regData { get; set; }
         ICollection<Blog> Blogs { get; set; } = new HashSet<Blog>();
+        public override string ToString() => UserName!;
+        
     }
 
 }

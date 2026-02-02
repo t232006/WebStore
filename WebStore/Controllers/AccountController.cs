@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using WebStore.Domain.Identity;
+using WebStore.ViewModels;
 
 namespace WebStore.Controllers
 {
@@ -19,8 +20,46 @@ namespace WebStore.Controllers
             signinManager = _signinManager;
             this.logger = logger;
         }
-        IActionResult Register() => View();
-        IActionResult Login() => View();
+        IActionResult Register() => View(new RegisterUserViewModel());
+        [HttpPost]
+        async Task<IActionResult> Register(RegisterUserViewModel Model)
+        {
+            if (!ModelState.IsValid) return View(Model);
+            var user = new User { UserName = Model.UserName };
+            var regResult = await userManager.CreateAsync(user, Model.password);
+            if (regResult.Succeeded)
+            {
+                logger.LogInformation("User {0} has registrated", user);
+                user.regData = DateTime.Today;
+                await signinManager.SignInAsync(user, false);
+                return RedirectToAction("Index", "Home");
+            }
+            foreach (var error in regResult.Errors)
+                ModelState.AddModelError("", error.Description);
+            logger.LogWarning(string.Join(", ", regResult.Errors.Select(e=>e.Description)));
+            return View(Model);
+
+        }
+        IActionResult Login(string? _redirect) => View(new LoginUserViewModel {redirectUrl=_redirect });
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        async Task<IActionResult> Login(LoginUserViewModel Model)
+        {
+            if (!ModelState.IsValid) return View(Model);
+            var signResult = await signinManager.PasswordSignInAsync(
+                Model.login,
+                Model.password,
+                Model.rememberMe,
+                lockoutOnFailure: false);
+            if (signResult.Succeeded)
+            {
+                logger.LogInformation("User {0} has entered", Model.login);
+                return LocalRedirect(Model.redirectUrl ?? "/");
+            }
+            ModelState.AddModelError("", "Username or password is incorrect");
+            logger.LogWarning("Username {0} has failed in trying to enter", Model.login);
+            return View(Model);
+        }
         IActionResult Logout() => View();
         IActionResult AccessDenied() => View();
 
