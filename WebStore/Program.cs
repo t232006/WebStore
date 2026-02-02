@@ -53,7 +53,7 @@ namespace WebStore
                 opt.ExpireTimeSpan = TimeSpan.FromDays(10);
                 opt.LoginPath = "/Account/Login";
                 opt.LogoutPath = "/Account/Logout";
-                opt.AccessDeniedPath = "/Account/AcessDenied";
+                opt.AccessDeniedPath = "/Account/AccessDenied";
                 opt.SlidingExpiration = true;
             });
 
@@ -76,6 +76,8 @@ namespace WebStore
 
             app.UseStaticFiles();
             app.UseRouting();
+            app.UseAuthentication();
+            app.UseAuthorization();
             app.MapGet("/greetings", () => app.Configuration["ServerGreetings"]);
 
             //app.MapDefaultControllerRoute();

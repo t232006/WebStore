@@ -1,4 +1,4 @@
-﻿@model RegisterUserViewModel
+﻿ @model RegisterUserViewModel
 
 <section id="form">
 	<!--form-->
@@ -8,21 +8,20 @@
 				<div class="login-form">
 					<!--login form-->
 					<h2>Регистрация нового пользователя</h2>
-					<form asp-action="Login" asp-asp-antiforgery="true">
-						<div asp-validation-summary="ModelOnly"></div>
+					<form asp-action="Register" asp-antiforgery="true">
+						<div asp-validation-summary="ModelOnly" class="text-danger"></div>
 						<input asp-for="UserName" placeholder="UserName" />
-						<span asp-validation-for="UserName" class="alert-danger" />
+						<span asp-validation-for="UserName" class="alert-danger"></span>
+						<input asp-for="login" placeholder="login" />
+						<span asp-validation-for="login" class="alert-danger" ></span>
 						<input asp-for="e_mail" placeholder="e_mail" />
-						<span asp-validation-for="e_mail" class="alert-danger" />
+						<span asp-validation-for="e_mail" class="alert-danger" ></span>
 						<input asp-for="password" placeholder="Password" />
-						<span asp-validation-for="password" class="alert-danger" />
+						<span asp-validation-for="password" class="alert-danger" ></span>
 						<input asp-for="passwordConfirmation" placeholder="Repeat password"/>
-						<span asp-validation-for="password" class="alert-danger" />
-						<span>
-							<input type="checkbox" class="checkbox">
-							Keep me signed in
-						</span>
-						<button type="submit" class="btn btn-default">Login</button>
+						<span asp-validation-for="passwordConfirmation" class="alert-danger" ></span>
+						
+						<button type="submit" class="btn btn-default">Registration</button>
 					</form>
 				</div><!--/login form-->
 			</div>

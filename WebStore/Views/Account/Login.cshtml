@@ -11,9 +11,9 @@
 					<form asp-action="Login" asp-asp-antiforgery="true">
 						<div asp-validation-summary="ModelOnly"></div>
 						<input asp-for="login" placeholder="UserName" />
-						<span asp-validation-for="login" class="alert-danger"/>
+						<span asp-validation-for="login" class="alert-danger"></span>
 						<input asp-for="password" placeholder="Password" />
-						<span asp-validation-for="password" class="alert-danger" />
+                        <span asp-validation-for="password" class="alert-danger" ></span>
 						<span>
 							<input asp-for="rememberMe" class="checkbox">
 							Keep me signed in

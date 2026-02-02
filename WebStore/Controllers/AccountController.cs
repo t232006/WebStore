@@ -9,20 +9,20 @@ namespace WebStore.Controllers
     {
         private readonly UserManager<User> userManager;
         private readonly SignInManager<User> signinManager;
-        private readonly Logger<AccountController> logger;
+        private readonly ILogger<AccountController> logger;
 
         public AccountController(
             UserManager<User> _userManager, 
             SignInManager<User> _signinManager,
-            Logger<AccountController> logger)
+            ILogger<AccountController> logger)
         {
             userManager = _userManager;
             signinManager = _signinManager;
             this.logger = logger;
         }
-        IActionResult Register() => View(new RegisterUserViewModel());
+        public IActionResult Register() => View(new RegisterUserViewModel());
         [HttpPost]
-        async Task<IActionResult> Register(RegisterUserViewModel Model)
+        public async Task<IActionResult> Register(RegisterUserViewModel Model)
         {
             if (!ModelState.IsValid) return View(Model);
             var user = new User { UserName = Model.UserName };
@@ -40,10 +40,10 @@ namespace WebStore.Controllers
             return View(Model);
 
         }
-        IActionResult Login(string? _redirect) => View(new LoginUserViewModel {redirectUrl=_redirect });
+        public IActionResult Login(string? _redirect) => View(new LoginUserViewModel {redirectUrl=_redirect });
         [HttpPost]
         [ValidateAntiForgeryToken]
-        async Task<IActionResult> Login(LoginUserViewModel Model)
+        public async Task<IActionResult> Login(LoginUserViewModel Model)
         {
             if (!ModelState.IsValid) return View(Model);
             var signResult = await signinManager.PasswordSignInAsync(
@@ -60,18 +60,18 @@ namespace WebStore.Controllers
             logger.LogWarning("Username {0} has failed in trying to enter", Model.login);
             return View(Model);
         }
-        async Task<IActionResult> Logout() 
+        public async Task<IActionResult> Logout() 
         {
             var username = User.Identity!.Name;
             await signinManager.SignOutAsync();
             return RedirectToAction("Index", "Home");
         }
-        IActionResult AccessDenied(string? redirectUrl) 
+        public IActionResult AccessDenied(string? redirectUrl) 
         {
             ViewBag.redirectUrl = redirectUrl;
             return View();
             
-        };
+        }
 
 
     }
