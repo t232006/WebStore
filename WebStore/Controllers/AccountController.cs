@@ -60,8 +60,18 @@ namespace WebStore.Controllers
             logger.LogWarning("Username {0} has failed in trying to enter", Model.login);
             return View(Model);
         }
-        IActionResult Logout() => View();
-        IActionResult AccessDenied() => View();
+        async Task<IActionResult> Logout() 
+        {
+            var username = User.Identity!.Name;
+            await signinManager.SignOutAsync();
+            return RedirectToAction("Index", "Home");
+        }
+        IActionResult AccessDenied(string? redirectUrl) 
+        {
+            ViewBag.redirectUrl = redirectUrl;
+            return View();
+            
+        };
 
 
     }
