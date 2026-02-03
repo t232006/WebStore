@@ -61,11 +61,6 @@ namespace WebStore.Services.InMemory
             return staff.FirstOrDefault(t => t.ID == ID);
         }
 
-        public Employee? GetByName(int Name)
-        {
-            throw new NotImplementedException();
-        }
-
         public int Insert(Employee empl)
         {
             if (empl is null) throw new ArgumentNullException(nameof(Employee));

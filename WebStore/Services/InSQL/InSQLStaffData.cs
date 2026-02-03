@@ -61,10 +61,6 @@ namespace WebStore.Services.InSQL
             return db.Employees.FirstOrDefault(e => e.ID == ID);
         }
 
-        public Employee? GetByName(int Name)
-        {
-            throw new NotImplementedException();
-        }
 
         public int Insert(Employee empl)
         {

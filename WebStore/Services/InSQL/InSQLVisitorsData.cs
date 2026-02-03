@@ -59,11 +59,6 @@ namespace WebStore.Services.InSQL
             return db.Visitors.FirstOrDefault(v => v.ID == ID); 
         }
 
-        public Visitor? GetByName(int Name)
-        {
-            throw new NotImplementedException();
-        }
-
         public int Insert(Visitor empl)
         {
             if (empl is null) throw new ArgumentNullException();

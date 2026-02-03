@@ -6,7 +6,6 @@ namespace WebStore.Servises.Interfaces
     {
         IEnumerable<T1> GetAll();
         T1? GetByID(T2 ID);
-        T1? GetByName(T2 Name);
         bool Edit(T1 empl);
         T2 Insert(T1 empl);
         bool Delete(T2 ID);
