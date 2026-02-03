@@ -1,4 +1,4 @@
-﻿using Microsoft.Build.Tasks.Deployment.Bootstrapper;
+﻿//using Microsoft.Build.Tasks.Deployment.Bootstrapper;
 //using System.Drawing.Drawing2D;
 //using static System.Collections.Specialized.BitVector32;
 using WebStore.Domain.Base;

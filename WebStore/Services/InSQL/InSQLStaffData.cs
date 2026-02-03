@@ -5,7 +5,7 @@ using WebStore.Servises.Interfaces;
 
 namespace WebStore.Services.InSQL
 {
-    public class InSQLStaffData : IStaffData<Employee>
+    public class InSQLStaffData : IStaffData<Employee, int>
     {
         private readonly WebStoreDB db;
         private readonly ILogger<InSQLStaffData> logger;
@@ -59,6 +59,11 @@ namespace WebStore.Services.InSQL
         public Employee? GetByID(int ID)
         {
             return db.Employees.FirstOrDefault(e => e.ID == ID);
+        }
+
+        public Employee? GetByName(int Name)
+        {
+            throw new NotImplementedException();
         }
 
         public int Insert(Employee empl)

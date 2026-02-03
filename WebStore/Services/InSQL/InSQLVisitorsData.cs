@@ -4,7 +4,7 @@ using WebStore.Servises.Interfaces;
 
 namespace WebStore.Services.InSQL
 {
-    public class InSQLVisitorsData : IStaffData<Visitor>
+    public class InSQLVisitorsData : IStaffData<Visitor, int>
     {
         private readonly WebStoreDB db;
         private readonly ILogger<InSQLVisitorsData> logger;
@@ -57,6 +57,11 @@ namespace WebStore.Services.InSQL
         public Visitor? GetByID(int ID)
         {
             return db.Visitors.FirstOrDefault(v => v.ID == ID); 
+        }
+
+        public Visitor? GetByName(int Name)
+        {
+            throw new NotImplementedException();
         }
 
         public int Insert(Visitor empl)

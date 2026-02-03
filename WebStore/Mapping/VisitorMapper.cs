@@ -1,10 +1,11 @@
 ﻿using System.Collections;
 using WebStore.Domain.Base;
+using WebStore.Domain.Identity;
 using WebStore.ViewModels;
 
 namespace WebStore.Mapping
 {
-    public class VisitorMapper
+    public static class VisitorMapper
     {
         public static VisitorsViewModel? ToView(Visitor? v) => v is null ?
             null :
@@ -17,5 +18,22 @@ namespace WebStore.Mapping
                 login = v.login,
             };
         //public static IEnumerable<VisitorsViewModel> ToView 
+        public static EditUserViewModel? ToView(this User? u) => u is null ?
+            null :
+            new EditUserViewModel
+            {
+                Email = u.Email,
+                UserName = u.UserName,
+                user_Name = u.user_Name
+            };
+        public static User? FromView(this EditUserViewModel? eu) => eu is null ?
+           null :
+           new User
+           {
+               Email = eu.Email,
+               UserName = eu.UserName,
+               user_Name = eu.user_Name
+           };
+
     }
 }

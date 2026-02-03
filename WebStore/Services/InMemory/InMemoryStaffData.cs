@@ -5,7 +5,7 @@ using Employee = WebStore.Domain.Base.Employee;
 
 namespace WebStore.Services.InMemory
 {
-    public class InMemoryStaffData : IStaffData<Employee>
+    public class InMemoryStaffData : IStaffData<Employee, int>
     {
         private readonly ICollection<Employee> staff;
         private readonly ILogger<InMemoryStaffData> logger;
@@ -59,6 +59,11 @@ namespace WebStore.Services.InMemory
         {
             //return (Employee?)staff.Select(t => t.ID);
             return staff.FirstOrDefault(t => t.ID == ID);
+        }
+
+        public Employee? GetByName(int Name)
+        {
+            throw new NotImplementedException();
         }
 
         public int Insert(Employee empl)

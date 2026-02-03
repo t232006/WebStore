@@ -64,7 +64,7 @@
 						<ul class="nav navbar-nav">
 							@if (@User.Identity!.IsAuthenticated)
 							{
-								<li><a href="#"><i class="fa fa-star"></i>  @User.Identity!.Name</a></li>
+								<li><a asp-controller="Account" asp-action="EditUser" asp-route-Id="@User.Identity.Name"><i class="fa fa-user"></i>  @User.Identity!.Name</a></li>
 							}
 							<li><a href="#"><i class="fa fa-star"></i> Wishlist</a></li>
 							<li><a href="cart.html"><i class="fa fa-shopping-cart"></i> Cart</a></li>

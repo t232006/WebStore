@@ -4,7 +4,7 @@ using WebStore.Servises.Interfaces;
 
 namespace WebStore.Services.InMemory
 {
-    public class InMemoryVisitorsData : IStaffData<Visitor>
+    public class InMemoryVisitorsData : IStaffData<Visitor, int>
     {
         private readonly ICollection<Visitor> VisitorsList;
         int LastID;
@@ -54,9 +54,14 @@ namespace WebStore.Services.InMemory
             VisitorsList.Add(empl);
             return LastID++; 
         }
-        IEnumerable<Visitor> IStaffData<Visitor>.GetAll()
+        IEnumerable<Visitor> IStaffData<Visitor, int>.GetAll()
         {
             return VisitorsList;
+        }
+
+        public Visitor? GetByName(int Name)
+        {
+            throw new NotImplementedException();
         }
     }
 }

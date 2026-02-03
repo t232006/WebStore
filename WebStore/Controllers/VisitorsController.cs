@@ -7,8 +7,8 @@ namespace WebStore.Controllers
 {
     public class VisitorsController:Controller
     {
-        private readonly IStaffData<Visitor> _visitors;
-        public VisitorsController(IStaffData<Visitor> visitors) => _visitors = visitors; 
+        private readonly IStaffData<Visitor, int> _visitors;
+        public VisitorsController(IStaffData<Visitor, int> visitors) => _visitors = visitors; 
         public IActionResult Index()
         {
             return View(_visitors.GetAll());

@@ -10,12 +10,13 @@
 					<h2>Регистрация нового пользователя</h2>
 					<form asp-action="Register" asp-antiforgery="true">
 						<div asp-validation-summary="ModelOnly" class="text-danger"></div>
-						<input asp-for="UserName" placeholder="UserName" />
+						
+						<input asp-for="user_Name" placeholder="User Name" />
+
+						<input asp-for="Email" placeholder="Email" />
+						<span asp-validation-for="Email" class="alert-danger" ></span>
+						<input asp-for="UserName" placeholder="Login" />
 						<span asp-validation-for="UserName" class="alert-danger"></span>
-						<input asp-for="login" placeholder="login" />
-						<span asp-validation-for="login" class="alert-danger" ></span>
-						<input asp-for="e_mail" placeholder="e_mail" />
-						<span asp-validation-for="e_mail" class="alert-danger" ></span>
 						<input asp-for="password" placeholder="Password" />
 						<span asp-validation-for="password" class="alert-danger" ></span>
 						<input asp-for="passwordConfirmation" placeholder="Repeat password"/>

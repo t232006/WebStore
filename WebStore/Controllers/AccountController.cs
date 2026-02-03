@@ -2,35 +2,72 @@
 using Microsoft.AspNetCore.Mvc;
 using WebStore.Domain.Identity;
 using WebStore.ViewModels;
+using WebStore.Services.InSQL;
+using WebStore.Servises.Interfaces;
+using WebStore.Mapping;
+using Microsoft.IdentityModel.Tokens;
 
 namespace WebStore.Controllers
 {
     public class AccountController :Controller
     {
+        private readonly IStaffData<User, string> user;
         private readonly UserManager<User> userManager;
         private readonly SignInManager<User> signinManager;
         private readonly ILogger<AccountController> logger;
 
         public AccountController(
+            IStaffData<User,string> _user,
             UserManager<User> _userManager, 
             SignInManager<User> _signinManager,
             ILogger<AccountController> logger)
         {
+            user = _user;
             userManager = _userManager;
             signinManager = _signinManager;
             this.logger = logger;
         }
+        public IActionResult EditUser(string Id)
+        {
+            if (Id is null) throw new ArgumentNullException();
+            User? tempUser = user.GetByName(Id);
+            return View(tempUser.ToView());
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditUser(EditUserViewModel euvm)
+        {
+            if (!ModelState.IsValid) return View(euvm);
+            User? tempUser = euvm.FromView();
+            if (user.Edit(tempUser)==false) return View(euvm);
+            if (!euvm.oldPassword.IsNullOrEmpty())
+            {
+                var result=await userManager.ChangePasswordAsync(tempUser,
+                                        euvm.oldPassword, 
+                                        euvm.password);
+                if (result.Succeeded)
+                    await userManager.UpdateSecurityStampAsync(tempUser);
+                foreach (var error in result.Errors)
+                    ModelState.AddModelError(string.Empty, error.Description);
+            }
+            return RedirectToAction("Index", "Home");
+        }
+        
         public IActionResult Register() => View(new RegisterUserViewModel());
         [HttpPost]
         public async Task<IActionResult> Register(RegisterUserViewModel Model)
         {
             if (!ModelState.IsValid) return View(Model);
-            var user = new User { UserName = Model.UserName };
+            var user = new User { UserName = Model.UserName, 
+                                    Email=Model.Email, 
+                                    user_Name=Model.user_Name,
+                                    regData = DateTime.Today
+            };
             var regResult = await userManager.CreateAsync(user, Model.password);
             if (regResult.Succeeded)
             {
                 logger.LogInformation("User {0} has registrated", user);
-                user.regData = DateTime.Today;
+                
                 await signinManager.SignInAsync(user, false);
                 return RedirectToAction("Index", "Home");
             }
@@ -72,7 +109,6 @@ namespace WebStore.Controllers
             return View();
             
         }
-
 
     }
 }
