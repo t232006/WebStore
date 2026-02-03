@@ -6,6 +6,8 @@ namespace WebStore.ViewModels
 {
     public class EditUserViewModel: UserViewModel, IValidatableObject
     {
+        public string NumberID { get; set; }
+
         [Display(Name ="Старый пароль")]
         [DataType(DataType.Password)]
         public string? oldPassword { get; set; } = null!;

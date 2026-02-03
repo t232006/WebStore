@@ -24,7 +24,9 @@ namespace WebStore.Mapping
             {
                 Email = u.Email,
                 UserName = u.UserName,
-                user_Name = u.user_Name
+                user_Name = u.user_Name,
+                NumberID = u.Id,
+                regDate = u.regDate,
             };
         public static User? FromView(this EditUserViewModel? eu) => eu is null ?
            null :
@@ -32,7 +34,10 @@ namespace WebStore.Mapping
            {
                Email = eu.Email,
                UserName = eu.UserName,
-               user_Name = eu.user_Name
+               user_Name = eu.user_Name,
+               Id = eu.NumberID,
+               NormalizedUserName = eu.UserName.ToUpper(),
+               regDate = eu.regDate
            };
 
     }

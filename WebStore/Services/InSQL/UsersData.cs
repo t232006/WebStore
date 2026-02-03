@@ -44,6 +44,8 @@ namespace WebStore.Services.InSQL
             }
             _user.UserName = user.UserName;
             _user.Email = user.Email;
+            _user.user_Name = user.user_Name;
+            _user.NormalizedUserName = user.UserName.ToUpper();
             //_user.password = user.password;
             db.SaveChanges();
             logger.LogInformation("User {0} is edited", user);

@@ -39,17 +39,35 @@ namespace WebStore.Controllers
         {
             if (!ModelState.IsValid) return View(euvm);
             User? tempUser = euvm.FromView();
-            if (user.Edit(tempUser)==false) return View(euvm);
+            if (!user.Edit(tempUser)) return View(euvm);
             if (!euvm.oldPassword.IsNullOrEmpty())
             {
-                var result=await userManager.ChangePasswordAsync(tempUser,
+                //User curUser = user.GetByID(euvm.NumberID);
+                var curUser = await userManager.FindByIdAsync(euvm.NumberID);
+                
+                var check = await userManager.CheckPasswordAsync(curUser, euvm.oldPassword);
+                if (!check)
+                {
+                    ModelState.AddModelError(string.Empty, "Старый пароль неверен");
+                    return View(euvm);
+                }
+
+                var result=await userManager.ChangePasswordAsync(curUser,
                                         euvm.oldPassword, 
                                         euvm.password);
                 if (result.Succeeded)
-                    await userManager.UpdateSecurityStampAsync(tempUser);
+                {
+                    await userManager.UpdateSecurityStampAsync(curUser);
+                    await signinManager.RefreshSignInAsync(curUser);
+                }
+                    
                 foreach (var error in result.Errors)
+                {
                     ModelState.AddModelError(string.Empty, error.Description);
+                    return View(euvm);
+                }
             }
+            await signinManager.RefreshSignInAsync(tempUser);
             return RedirectToAction("Index", "Home");
         }
         
@@ -61,7 +79,7 @@ namespace WebStore.Controllers
             var user = new User { UserName = Model.UserName, 
                                     Email=Model.Email, 
                                     user_Name=Model.user_Name,
-                                    regData = DateTime.Today
+                                    regDate = DateTime.Today
             };
             var regResult = await userManager.CreateAsync(user, Model.password);
             if (regResult.Succeeded)
