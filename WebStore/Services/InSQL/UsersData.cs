@@ -57,10 +57,8 @@ namespace WebStore.Services.InSQL
 
         public User? GetByID(string ID)
         {
-            return db.Users.FirstOrDefault(v => v.Id == ID); 
+            return db.Users.FirstOrDefault(v => v.UserName == ID); 
         }
-
-        public User? GetByName(string Name) => db.Users.FirstOrDefault(v => v.UserName == Name);
 
         public string Insert(User user)
         {

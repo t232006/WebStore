@@ -59,9 +59,5 @@ namespace WebStore.Services.InMemory
             return VisitorsList;
         }
 
-        public Visitor? GetByName(int Name)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

@@ -30,7 +30,7 @@ namespace WebStore.Controllers
         public IActionResult EditUser(string Id)
         {
             if (Id is null) throw new ArgumentNullException();
-            User? tempUser = user.GetByName(Id);
+            User? tempUser = user.GetByID(Id);
             return View(tempUser.ToView());
         }
         [HttpPost]
