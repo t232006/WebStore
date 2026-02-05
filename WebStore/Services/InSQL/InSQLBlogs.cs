@@ -3,6 +3,7 @@ using WebStore.Data;
 using WebStore.Domain.Base;
 using WebStore.Services.Interfaces;
 using WebStore.DAL.Context;
+using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace WebStore.Services.InSQL
 {
@@ -14,6 +15,12 @@ namespace WebStore.Services.InSQL
         {
             db = _db;
         }
+
+        public Blog? GetBlogByID(int ID)
+        {
+            return db.Blogs.FirstOrDefault(b => b.ID == ID)  ?? null;
+        }
+
         public IEnumerable<Blog> GetBlogs(ProductFilter filter)
         {
             IQueryable<Blog> result = db.Blogs;

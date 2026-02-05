@@ -18,6 +18,15 @@ namespace WebStore.DAL.Context
         {
 
         }
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<Comment>()
+                .HasOne(c => c.ParentComment)
+                .WithMany() // ChildComments у вас не публичное свойство, поэтому без имени навигации
+                .HasForeignKey(c => c.CommentID)
+                .OnDelete(DeleteBehavior.NoAction);
+        }
 
     }
 }

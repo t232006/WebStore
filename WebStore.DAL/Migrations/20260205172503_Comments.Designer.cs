@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebStore.DAL.Context;
 
@@ -11,9 +12,11 @@ using WebStore.DAL.Context;
 namespace WebStore.DAL.Migrations
 {
     [DbContext(typeof(WebStoreDB))]
-    partial class WebStoreDBModelSnapshot : ModelSnapshot
+    [Migration("20260205172503_Comments")]
+    partial class Comments
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -212,7 +215,7 @@ namespace WebStore.DAL.Migrations
                     b.Property<int>("BlogID")
                         .HasColumnType("int");
 
-                    b.Property<int?>("CommentID")
+                    b.Property<int>("CommentID")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("PublicDate")
@@ -290,8 +293,6 @@ namespace WebStore.DAL.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("ID");
-
-                    b.HasIndex("BrandId");
 
                     b.HasIndex("Name");
 
@@ -551,7 +552,8 @@ namespace WebStore.DAL.Migrations
                     b.HasOne("WebStore.Domain.Base.Comment", "ParentComment")
                         .WithMany()
                         .HasForeignKey("CommentID")
-                        .OnDelete(DeleteBehavior.NoAction);
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Author");
 
@@ -564,7 +566,9 @@ namespace WebStore.DAL.Migrations
                 {
                     b.HasOne("WebStore.Domain.Base.Brand", "Brand")
                         .WithMany()
-                        .HasForeignKey("BrandId");
+                        .HasForeignKey("SectionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("WebStore.Domain.Base.Section", "Section")
                         .WithMany()

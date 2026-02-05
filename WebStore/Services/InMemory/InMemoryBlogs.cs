@@ -6,6 +6,11 @@ namespace WebStore.Services.InMemory
 {
     public class InMemoryBlogs : IBlogs
     {
+        public Blog? GetBlogByID(int ID)
+        {
+            throw new NotImplementedException();
+        }
+
         public IEnumerable<Blog> GetBlogs(ProductFilter filter)
         {
             var result = TestData.Blogs;

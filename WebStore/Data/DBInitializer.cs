@@ -1,6 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
 using WebStore.DAL.Context;
 using WebStore.Domain.Base;
+using WebStore.Domain.Identity;
 
 namespace WebStore.Data
 {
@@ -26,16 +29,33 @@ namespace WebStore.Data
         }
         public async Task InitializationDB(bool RemoveBefore, bool AddTestData, CancellationToken Cancel = default)
         {
+            string UserID;
             if (RemoveBefore) await EraseDB(Cancel).ConfigureAwait(false);
             logger.LogInformation("Starting migration...");
             await db.Database.MigrateAsync(Cancel).ConfigureAwait(false);
             logger.LogInformation("Migration complete");
+            if (RemoveBefore)
+            {
+                var hasher = new PasswordHasher<IdentityUser>();
+                var iu = new IdentityUser();
+                string plainPassword = "123";
+                string hashedPassword = hasher.HashPassword(iu, plainPassword);
+                User user = new User {
+                    user_Name = "Test User",
+                    UserName = "Test",
+                    Email = "test@ya.ru",
+                    PasswordHash = hashedPassword
+                };
+                db.Users.Add(user);
+                db.SaveChanges();
+            }
+            UserID = db.Users.Select(u => u.Id).First();
             var sectionPool = TestData.Sections.ToDictionary(s => s.ID);
             var brandPool = TestData.Brands.ToDictionary(b => b.ID);
-            var authorPool = TestData._visitors.ToDictionary(a => a.ID);
+            //var authorPool = TestData._visitors.ToDictionary(a => a.ID);
             foreach (var tempRec in TestData.Blogs)
             {
-                tempRec.Author = authorPool[tempRec.AuthorID];
+                //tempRec.Author = authorPool[tempRec.AuthorID];
                 if (tempRec.BrandID is not null)
                     tempRec.Brand = brandPool[tempRec.BrandID.Value];
                 if (tempRec.SectionID is not null)
@@ -64,7 +84,7 @@ namespace WebStore.Data
                 tempRec.ID = 0;
             foreach (var tempRec in TestData.Blogs)
             {
-                tempRec.AuthorID = 0;
+                tempRec.AuthorID = UserID;
                 tempRec.ID = 0;
                 tempRec.SectionID = null;
                 tempRec.BrandID = null;
@@ -79,17 +99,11 @@ namespace WebStore.Data
                 else
                     await Initialize<Employee>("Employees", TestData._employees);
 
-                logger.LogInformation("Coping from Visitors...");
+                /*logger.LogInformation("Coping from Visitors...");
                 if (await db.Visitors.AnyAsync(Cancel).ConfigureAwait(false))
                     logger.LogInformation("There are some records");
                 else
-                    await Initialize<Visitor>("Visitors", TestData._visitors);
-
-                logger.LogInformation("Coping from Blogs...");
-                if (await db.Blogs.AnyAsync(Cancel).ConfigureAwait(false))
-                    logger.LogInformation("There are some records");
-                 else
-                    await Initialize<Blog>("Blogs", TestData.Blogs);
+                    await Initialize<Visitor>("Visitors", TestData._visitors);*/
 
                 logger.LogInformation("Coping from Products...");
                 if (await db.Products.AnyAsync(Cancel).ConfigureAwait(false))
@@ -101,7 +115,12 @@ namespace WebStore.Data
                     await Initialize<Section>("Sections", TestData.Sections);
                     await Initialize<Product>("Products", TestData.Products);
                 }
-                    
+                logger.LogInformation("Coping from Blogs...");
+                if (await db.Blogs.AnyAsync(Cancel).ConfigureAwait(false))
+                    logger.LogInformation("There are some records");
+                else
+                    await Initialize<Blog>("Blogs", TestData.Blogs);
+
 
                 logger.LogInformation("Initialization complete");
             }

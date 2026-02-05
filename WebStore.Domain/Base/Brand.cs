@@ -9,6 +9,4 @@ namespace WebStore.Domain.Base
         public int Order { get; set; }
         ICollection<Product> Products { get; set; } = new HashSet<Product>();
     }
-
-
 }
