@@ -23,7 +23,7 @@ namespace WebStore.Services.InSQL
 
         public IEnumerable<Blog> GetBlogs(ProductFilter filter)
         {
-            IQueryable<Blog> result = db.Blogs;
+            IQueryable<Blog> result = db.Blogs.Include(b=>b.Author);
             if (filter is not null)
             {
                 if (filter.SectionID.HasValue)
