@@ -21,7 +21,7 @@ namespace WebStore.Domain.Base
         public int BlogID { get; set; }
         [ForeignKey(nameof(BlogID))]
         public Blog? Blog { get; set; }
-        public DateTime PublicDate { get; set; }
+        public DateTime PublicDate { get;}
         public int? CommentID { get; set; }
         [ForeignKey(nameof(CommentID))]
         public Comment? ParentComment { get; set; }

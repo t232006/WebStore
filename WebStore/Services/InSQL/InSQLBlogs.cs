@@ -18,7 +18,7 @@ namespace WebStore.Services.InSQL
 
         public Blog? GetBlogByID(int ID)
         {
-            return db.Blogs.FirstOrDefault(b => b.ID == ID)  ?? null;
+            return db.Blogs.Include(b=>b.Author).FirstOrDefault(b => b.ID == ID)  ?? null;
         }
 
         public IEnumerable<Blog> GetBlogs(ProductFilter filter)

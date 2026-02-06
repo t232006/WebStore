@@ -8,6 +8,10 @@ namespace WebStore.Domain.Identity
 {
     public class User: IdentityUser
     {
+        public User()
+        {
+            regDate = DateTime.Today;
+        }
         public DateTime regDate { get; set; }
         public string? user_Name { get; set; }
 

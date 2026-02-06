@@ -8,6 +8,10 @@ namespace WebStore.Domain.Base
 {
     public class Blog :NamedEntity
     {
+        public Blog()
+        {
+            PublicDate = DateTime.Now;
+        }
         public string AuthorID { get; set; } = null!;
         [ForeignKey(nameof(AuthorID))]
         public User Author { get; set; }
@@ -19,7 +23,7 @@ namespace WebStore.Domain.Base
         [ForeignKey(nameof(BrandID))]
         public Brand? Brand { get; set; }
         [ForeignKey(nameof(SectionID))]
-        public Section? Section {get;set;}
+        public Section? Section {get; set;}
         public int? SectionID { get; set; }
         ICollection<Comment>? Comments { get; set; } = new HashSet<Comment>();
     }

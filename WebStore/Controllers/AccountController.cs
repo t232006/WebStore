@@ -78,8 +78,7 @@ namespace WebStore.Controllers
             if (!ModelState.IsValid) return View(Model);
             var user = new User { UserName = Model.UserName, 
                                     Email=Model.Email, 
-                                    user_Name=Model.user_Name,
-                                    regDate = DateTime.Today
+                                    user_Name=Model.user_Name
             };
             var regResult = await userManager.CreateAsync(user, Model.password);
             if (regResult.Succeeded)
