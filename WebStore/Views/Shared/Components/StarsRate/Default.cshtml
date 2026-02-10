@@ -1,20 +1,20 @@
 ﻿@using Microsoft.AspNetCore.Html
 @model StarsRateViewModel
-@functions{
-	IHtmlContent star(byte number, double rate)
+@functions {
+	IHtmlContent star(byte number, decimal rate)
 	{
-		@if (number < Math.Floor(rate))
+		@if (number <= Math.Floor(rate))
 		{
-			return Html.Raw("<i class=\"fa fa color\"></i>");
+			return Html.Raw("<i class=\"fa fa-star color\"></i>");
 		}
 		else
-		@if (number == Math.Truncate(rate))
+		@if (number == Math.Truncate(rate)&&(number-Math.Truncate(rate)>0))
 		{
 			return Html.Raw("<i class=\"fa fa-star-half-empty\"></i>");
 		}
 		else
 		{
-			return Html.Raw("<i class=\"fa fa - star - o\"></i>");
+			return Html.Raw("<i class=\"fa fa-star-o\"></i>");
 		}
 	}
 }
@@ -22,12 +22,22 @@
 
 <ul class="ratings">
 	<li class="rate-this">Rate this item:</li>
-		<a asp-action="vote" asp-route-b="1" star(1, Model.Rate)/>
-		<a asp-action="vote" asp-route-b="2" star(2, Model.Rate)/>
-		<a asp-action="vote" asp-route-b="3" star(3, Model.Rate)/>
-		<a asp-action="vote" asp-route-b="4" star(4, Model.Rate)/>
-		<a asp-action="vote" asp-route-b="5" star(5, Model.Rate)/>
-	
+	@for (byte i = 1; i <= 5; i++)
+	{
+		<a asp-controller="BlogUser" asp-action="Invote" 
+											asp-route-BlogID="@Model.BlogID" 
+											asp-route-UserID="@Model.UserID"
+											asp-route-Rate="@i">
+			@if (Model.Rate is null)
+			{
+				@star(@i, @Model.AverageRate)
+			}
+			else
+			{
+				@star(@i, Convert.ToDecimal(@Model.Rate))
+			}
+		</a>
+	}
 	<li class="Color">" (@Model.VotesAmount votes)"</li>
 </ul>
 

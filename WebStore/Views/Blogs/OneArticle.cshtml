@@ -1,16 +1,6 @@
 ﻿@using System.Security.Claims
 @model BlogViewModel 
 <section>
-	@if (User.Identity?.IsAuthenticated == true)
-	{
-		<p>Пользователь авторизован</p>
-		<p>User ID: @User.FindFirstValue(ClaimTypes.NameIdentifier)</p>
-	}
-	else
-	{
-		<p>Пользователь НЕ авторизован</p>
-	}
-	
 	<div class="container">
 		<div class="row">
 			

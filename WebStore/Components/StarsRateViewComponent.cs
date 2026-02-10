@@ -19,7 +19,9 @@ namespace WebStore.Components
             {
                 VotesAmount = bur.VoteNumber(BlogID),
                 AverageRate = bur.AverageRate(BlogID),
-                Rate = bur.UserVote(UserID, BlogID)
+                Rate = bur.UserVote(UserID, BlogID),
+                BlogID = BlogID,
+                UserID = UserID
             };
             return View(srvm);
         }

@@ -8,6 +8,7 @@ namespace WebStore.Domain.Base.Interfaces
     {
         int VoteNumber(int BlogID);
         decimal AverageRate(int BlogID);
-        byte UserVote(string UserID, int BlogID);
+        byte? UserVote(string? UserID, int BlogID);
+        void Invote(string UserID, int BlogID, byte Rate);
     }
 }
