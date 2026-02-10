@@ -8,7 +8,7 @@
 			return Html.Raw("<i class=\"fa fa-star color\"></i>");
 		}
 		else
-		@if (number == Math.Truncate(rate)&&(number-Math.Truncate(rate)>0))
+		@if (number > rate && number - 1 < rate)
 		{
 			return Html.Raw("<i class=\"fa fa-star-half-empty\"></i>");
 		}
@@ -24,19 +24,20 @@
 	<li class="rate-this">Rate this item:</li>
 	@for (byte i = 1; i <= 5; i++)
 	{
-		<a asp-controller="BlogUser" asp-action="Invote" 
-											asp-route-BlogID="@Model.BlogID" 
-											asp-route-UserID="@Model.UserID"
-											asp-route-Rate="@i">
+		
 			@if (Model.Rate is null)
 			{
 				@star(@i, @Model.AverageRate)
 			}
 			else
 			{
-				@star(@i, Convert.ToDecimal(@Model.Rate))
+			<a asp-controller="BlogUser" asp-action="Invote"
+			   asp-route-BlogID="@Model.BlogID"
+			   asp-route-UserID="@Model.UserID"
+			   asp-route-Rate="@i">
+				@star(@i, Convert.ToDecimal(@Model.Rate))</a>
 			}
-		</a>
+		
 	}
 	<li class="Color">" (@Model.VotesAmount votes)"</li>
 </ul>
