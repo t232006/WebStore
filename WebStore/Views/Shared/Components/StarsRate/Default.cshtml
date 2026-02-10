@@ -1,0 +1,33 @@
+﻿@using Microsoft.AspNetCore.Html
+@model StarsRateViewModel
+@functions{
+	IHtmlContent star(byte number, double rate)
+	{
+		@if (number < Math.Floor(rate))
+		{
+			return Html.Raw("<i class=\"fa fa color\"></i>");
+		}
+		else
+		@if (number == Math.Truncate(rate))
+		{
+			return Html.Raw("<i class=\"fa fa-star-half-empty\"></i>");
+		}
+		else
+		{
+			return Html.Raw("<i class=\"fa fa - star - o\"></i>");
+		}
+	}
+}
+
+
+<ul class="ratings">
+	<li class="rate-this">Rate this item:</li>
+		<a asp-action="vote" asp-route-b="1" star(1, Model.Rate)/>
+		<a asp-action="vote" asp-route-b="2" star(2, Model.Rate)/>
+		<a asp-action="vote" asp-route-b="3" star(3, Model.Rate)/>
+		<a asp-action="vote" asp-route-b="4" star(4, Model.Rate)/>
+		<a asp-action="vote" asp-route-b="5" star(5, Model.Rate)/>
+	
+	<li class="Color">" (@Model.VotesAmount votes)"</li>
+</ul>
+

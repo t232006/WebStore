@@ -12,8 +12,8 @@ using WebStore.DAL.Context;
 namespace WebStore.DAL.Migrations
 {
     [DbContext(typeof(WebStoreDB))]
-    [Migration("20260126110034_Identity")]
-    partial class Identity
+    [Migration("20260210015208_BURMig")]
+    partial class BURMig
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -139,8 +139,9 @@ namespace WebStore.DAL.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
 
-                    b.Property<int>("AuthorID")
-                        .HasColumnType("int");
+                    b.Property<string>("AuthorID")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<int?>("BrandID")
                         .HasColumnType("int");
@@ -176,6 +177,26 @@ namespace WebStore.DAL.Migrations
                     b.ToTable("Blogs");
                 });
 
+            modelBuilder.Entity("WebStore.Domain.Base.BlogUserRate", b =>
+                {
+                    b.Property<int>("BlogID")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserID")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<decimal>("Rate")
+                        .HasColumnType("decimal(5,2)");
+
+                    b.HasKey("BlogID", "UserID");
+
+                    b.HasIndex("BlogID");
+
+                    b.HasIndex("UserID");
+
+                    b.ToTable("BlogUserRate");
+                });
+
             modelBuilder.Entity("WebStore.Domain.Base.Brand", b =>
                 {
                     b.Property<int>("ID")
@@ -207,10 +228,14 @@ namespace WebStore.DAL.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
 
-                    b.Property<int>("AuthorID")
-                        .HasColumnType("int");
+                    b.Property<string>("AuthorID")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("BlogID")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("CommentID")
                         .HasColumnType("int");
 
                     b.Property<string>("Text")
@@ -222,6 +247,8 @@ namespace WebStore.DAL.Migrations
                     b.HasIndex("AuthorID");
 
                     b.HasIndex("BlogID");
+
+                    b.HasIndex("CommentID");
 
                     b.ToTable("Comments");
                 });
@@ -434,8 +461,11 @@ namespace WebStore.DAL.Migrations
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
 
-                    b.Property<DateTime>("regData")
+                    b.Property<DateTime>("regDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("user_Name")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -503,7 +533,7 @@ namespace WebStore.DAL.Migrations
 
             modelBuilder.Entity("WebStore.Domain.Base.Blog", b =>
                 {
-                    b.HasOne("WebStore.Domain.Base.Visitor", "Author")
+                    b.HasOne("WebStore.Domain.Identity.User", "Author")
                         .WithMany()
                         .HasForeignKey("AuthorID")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -524,9 +554,28 @@ namespace WebStore.DAL.Migrations
                     b.Navigation("Section");
                 });
 
+            modelBuilder.Entity("WebStore.Domain.Base.BlogUserRate", b =>
+                {
+                    b.HasOne("WebStore.Domain.Base.Blog", "Blog")
+                        .WithMany()
+                        .HasForeignKey("BlogID")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("WebStore.Domain.Identity.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Blog");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("WebStore.Domain.Base.Comment", b =>
                 {
-                    b.HasOne("WebStore.Domain.Base.Visitor", "Author")
+                    b.HasOne("WebStore.Domain.Identity.User", "Author")
                         .WithMany()
                         .HasForeignKey("AuthorID")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -538,9 +587,16 @@ namespace WebStore.DAL.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("WebStore.Domain.Base.Comment", "ParentComment")
+                        .WithMany()
+                        .HasForeignKey("CommentID")
+                        .OnDelete(DeleteBehavior.NoAction);
+
                     b.Navigation("Author");
 
                     b.Navigation("Blog");
+
+                    b.Navigation("ParentComment");
                 });
 
             modelBuilder.Entity("WebStore.Domain.Base.Product", b =>

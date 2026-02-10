@@ -43,6 +43,7 @@ namespace WebStore.Data
                 User user = new User {
                     user_Name = "Test User",
                     UserName = "Test",
+                    NormalizedUserName = "TEST",
                     Email = "test@ya.ru",
                     PasswordHash = hashedPassword
                 };
@@ -125,7 +126,9 @@ namespace WebStore.Data
                 else
                     await Initialize<Blog>("Blogs", TestData.Blogs);
 
-
+                var user = db.Users.First();
+                db.BlogUserRate.Add(new BlogUserRate { BlogID = 1, UserID = user.Id, Rate = 4 });
+                db.SaveChanges();
                 logger.LogInformation("Initialization complete");
             }
             

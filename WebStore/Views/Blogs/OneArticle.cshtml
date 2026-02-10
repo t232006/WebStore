@@ -1,5 +1,16 @@
-﻿@model BlogViewModel 
+﻿@using System.Security.Claims
+@model BlogViewModel 
 <section>
+	@if (User.Identity?.IsAuthenticated == true)
+	{
+		<p>Пользователь авторизован</p>
+		<p>User ID: @User.FindFirstValue(ClaimTypes.NameIdentifier)</p>
+	}
+	else
+	{
+		<p>Пользователь НЕ авторизован</p>
+	}
+	
 	<div class="container">
 		<div class="row">
 			
@@ -14,13 +25,7 @@
 								<li><i class="fa fa-clock-o"></i> @Model.pubDate</li>
 								<li><i class="fa fa-calendar"></i> @Model.pubTime</li>
 							</ul>
-							<span>
-								<i class="fa fa-star"></i>
-								<i class="fa fa-star"></i>
-								<i class="fa fa-star"></i>
-								<i class="fa fa-star"></i>
-								<i class="fa fa-star-half-o"></i>
-							</span>
+							<vc:starrate>
 						</div>
 						<a href="">
 							<img src="/images/blog/@Model.PictureUrl" alt="">
@@ -38,17 +43,10 @@
 				</div><!--/blog-post-area-->
 
 				<div class="rating-area">
-					<ul class="ratings">
-						<li class="rate-this">Rate this item:</li>
-						<li>
-							<i class="fa fa-star color"></i>
-							<i class="fa fa-star color"></i>
-							<i class="fa fa-star color"></i>
-							<i class="fa fa-star"></i>
-							<i class="fa fa-star"></i>
-						</li>
-						<li class="color">(6 votes)</li>
-					</ul>
+					<vc:stars-rate 
+						blog-id="@Model.ID" 
+						user-id="@User.FindFirstValue(ClaimTypes.NameIdentifier)">
+					</vc:stars-rate>
 					<ul class="tag">
 						<li>TAG:</li>
 						<li><a class="color" href="">Pink <span>/</span></a></li>

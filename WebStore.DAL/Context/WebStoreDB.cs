@@ -14,6 +14,7 @@ namespace WebStore.DAL.Context
         public DbSet<Blog> Blogs { get; set; }
         public DbSet<Visitor> Visitors {get;set;}
         public DbSet<Comment> Comments { get; set; }
+        public DbSet<BlogUserRate> BlogUserRate { get; set; }
         public WebStoreDB (DbContextOptions<WebStoreDB> DBOptions) : base(DBOptions)
         {
 
@@ -26,7 +27,22 @@ namespace WebStore.DAL.Context
                 .WithMany() // ChildComments у вас не публичное свойство, поэтому без имени навигации
                 .HasForeignKey(c => c.CommentID)
                 .OnDelete(DeleteBehavior.NoAction);
+            modelBuilder.Entity<BlogUserRate>(b =>
+            {
+                b.HasKey(x => new { x.BlogID, x.UserID });
+
+                b.HasOne(x => x.User)
+                 .WithMany() // или .WithMany(u => u.BlogRates) если есть навигация
+                 .HasForeignKey(x => x.UserID)
+                 .OnDelete(DeleteBehavior.Cascade); // удаление User -> удаляются рейтинги
+
+                b.HasOne(x => x.Blog)
+                 .WithMany() // или .WithMany(b => b.UserRates)
+                 .HasForeignKey(x => x.BlogID)
+                 .OnDelete(DeleteBehavior.NoAction); // блокируем каскад со стороны Blog
+            });
         }
+
 
     }
 }

@@ -12,7 +12,11 @@ namespace WebStore.ViewModels
         public short Rate { get; set; } = 3;
         public string? PictureUrl { get; set; }
         public int? BrandID { get; set; }
-        public string ShortTextBlock { get => Block.Substring(0, 800); }
+        public string ShortTextBlock
+        { get {
+                return Block.Length>=800? Block.Substring(0, 800):Block;
+            } 
+        }
         public int? SectionID { get; set; }
         public DateTime publicDate { get; set; }
         public string pubDate { get => publicDate.Date.ToString("dd.MMM.yyyy"); }

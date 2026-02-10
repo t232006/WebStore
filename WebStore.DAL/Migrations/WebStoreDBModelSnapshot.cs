@@ -174,6 +174,26 @@ namespace WebStore.DAL.Migrations
                     b.ToTable("Blogs");
                 });
 
+            modelBuilder.Entity("WebStore.Domain.Base.BlogUserRate", b =>
+                {
+                    b.Property<int>("BlogID")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserID")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<decimal>("Rate")
+                        .HasColumnType("decimal(5,2)");
+
+                    b.HasKey("BlogID", "UserID");
+
+                    b.HasIndex("BlogID");
+
+                    b.HasIndex("UserID");
+
+                    b.ToTable("BlogUserRate");
+                });
+
             modelBuilder.Entity("WebStore.Domain.Base.Brand", b =>
                 {
                     b.Property<int>("ID")
@@ -529,6 +549,25 @@ namespace WebStore.DAL.Migrations
                     b.Navigation("Brand");
 
                     b.Navigation("Section");
+                });
+
+            modelBuilder.Entity("WebStore.Domain.Base.BlogUserRate", b =>
+                {
+                    b.HasOne("WebStore.Domain.Base.Blog", "Blog")
+                        .WithMany()
+                        .HasForeignKey("BlogID")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("WebStore.Domain.Identity.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Blog");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("WebStore.Domain.Base.Comment", b =>
