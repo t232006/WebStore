@@ -27,6 +27,7 @@ namespace WebStore
             //builder.Services.AddScoped<IBlogs, InMemoryBlogs>();
             builder.Services.AddScoped<IBlogs, InSQLBlogs>();
             builder.Services.AddScoped<IBlogUserRate, InSQLBlogUserRate>();
+            builder.Services.AddScoped<IComments, InSQLComments>();
 
             builder.Services.AddIdentity<User, Role>(/*opt => { }*/)
                 .AddEntityFrameworkStores<WebStoreDB>()

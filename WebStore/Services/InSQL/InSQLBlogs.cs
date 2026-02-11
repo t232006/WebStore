@@ -4,6 +4,7 @@ using WebStore.Domain.Base;
 using WebStore.Services.Interfaces;
 using WebStore.DAL.Context;
 using Microsoft.AspNetCore.Http.HttpResults;
+using NuGet.Packaging;
 
 namespace WebStore.Services.InSQL
 {
@@ -18,7 +19,9 @@ namespace WebStore.Services.InSQL
 
         public Blog? GetBlogByID(int ID)
         {
-            return db.Blogs.Include(b=>b.Author).FirstOrDefault(b => b.ID == ID)  ?? null;
+            var ablog = db.Blogs.Include(b=>b.Author).FirstOrDefault(b => b.ID == ID)  ?? null;
+            if (ablog is not null) ablog.Comments.AddRange(db.Comments.Where(c => c.CommentID == ID));
+            return ablog;
         }
 
         public IEnumerable<Blog> GetBlogs(ProductFilter filter)

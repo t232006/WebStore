@@ -9,7 +9,6 @@ namespace WebStore.ViewModels
         public string Name { get; set; } = null!;
         public User Author { get; set; }
         public string Block { get; set; } = null!;
-        public short Rate { get; set; } = 3;
         public string? PictureUrl { get; set; }
         public int? BrandID { get; set; }
         public string ShortTextBlock
@@ -18,6 +17,7 @@ namespace WebStore.ViewModels
             } 
         }
         public int? SectionID { get; set; }
+        public ICollection<Comment>? Comments { get; set; }
         public DateTime publicDate { get; set; }
         public string pubDate { get => publicDate.Date.ToString("dd.MMM.yyyy"); }
         public string pubTime { get => publicDate.ToLocalTime().ToString("h:m"); }

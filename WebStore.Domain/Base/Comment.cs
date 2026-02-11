@@ -18,7 +18,7 @@ namespace WebStore.Domain.Base
         public string AuthorID { get; set; }
         [ForeignKey(nameof(AuthorID))]
         public required User Author { get; set; }
-        public int BlogID { get; set; }
+        public int? BlogID { get; set; }
         [ForeignKey(nameof(BlogID))]
         public Blog? Blog { get; set; }
         public DateTime PublicDate { get;}

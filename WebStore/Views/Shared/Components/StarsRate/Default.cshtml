@@ -21,7 +21,11 @@
 
 
 <ul class="ratings">
-	<li class="rate-this">Rate this item:</li>
+	@if (Model.Rate is not null)
+	{
+		<li class="rate-this">Rate this item:</li>
+	}
+	
 	@for (byte i = 1; i <= 5; i++)
 	{
 		
@@ -39,6 +43,6 @@
 			}
 		
 	}
-	<li class="Color">" (@Model.VotesAmount votes)"</li>
+	<ul class="Color"> (@Model.VotesAmount votes)</ul>
 </ul>
 

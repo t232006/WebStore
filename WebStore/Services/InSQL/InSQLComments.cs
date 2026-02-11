@@ -25,10 +25,13 @@ namespace WebStore.Services.InSQL
             return db.Comments.Where(b=>b.BlogID == BlogID);
         }
 
-        public int WriteComment(string Author, string Text)
+        public int WriteComment(int? BlogID, int? CommentID, string Author, string Text)
         {
             var author = db.Users.FirstOrDefault(u => u.Id == Author);
-            db.Comments.Add(new Comment { Author = author!, Text = Text });
+            db.Comments.Add(new Comment { Author = author!, 
+                                        Text = Text,
+                                        BlogID = BlogID,
+                                        CommentID=CommentID});
             return db.Comments.OrderBy(u => u.ID).Select(u => u.ID).Last();
         }
     }
