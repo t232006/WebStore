@@ -2,6 +2,7 @@
 @model BlogViewModel 
 <section>
 	<div class="container">
+		<form asp-action="PostBlogComment">
 		<div class="row">
 			
 			<div class="col-sm-9">
@@ -9,6 +10,8 @@
 					<h2 class="title text-center">Latest From our Blog</h2>
 					<div class="single-blog-post">
 						<h3>@Model.Name</h3>
+						<input type="hidden" asp-for="@Model.ID"/>
+						<input type="hidden" asp-for="@Model.Author.Id"/>
 						<div class="post-meta">
 							<ul>
 								<li><i class="fa fa-user"></i>@Model.Author.user_Name </li>
@@ -56,7 +59,7 @@
 						<img class="media-object" src="images/blog/man-one.jpg" alt="">
 					</a>
 					<div class="media-body">
-						<h4 class="media-heading">Annie Davis</h4>
+						<h4 class="media-heading">@Model.Author.user_Name</h4>
 						<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.  Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
 						<div class="blog-socials">
 							<ul>
@@ -78,13 +81,13 @@
 							<a class="pull-left" href="#">
 								<img class="media-object" src="images/blog/man-two.jpg" alt="">
 							</a>
-							<div class="media-body">
+							<div class="media-body-blog">
 								<ul class="sinlge-post-meta">
-									<li><i class="fa fa-user"></i>com.Author</li>
-									<li><i class="fa fa-clock-o"></i> com.PublicTime</li>
-									<li><i class="fa fa-calendar"></i> DEC 5, 2013</li>
+									<li><i class="fa fa-user"></i>@com.Author.user_Name</li>
+									<li><i class="fa fa-clock-o"></i> @com.pubTime</li>
+									<li><i class="fa fa-calendar"></i> @com.pubDate</li>
 								</ul>
-								<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.  Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+								<p>@com.Text</p>
 								<a class="btn btn-primary" href=""><i class="fa fa-reply"></i>Replay</a>
 							</div>	
 							}
@@ -95,23 +98,36 @@
 				</div><!--/Response-area-->
 				<div class="replay-box">
 					<div class="row">
-						<div class="col-sm-4">
-							<h2>Leave a replay</h2>
+						
+						
+						<h2>Leave a replay</h2>
+							
+						
+						<div class="col-sm-8">
+							
+							<div class="blank-arrow">
+								<label>Write here</label>
+							</div>
+								
+							<textarea asp-for="NewCommentText" rows="11"></textarea>
+							
+									@if (@User.FindFirstValue(ClaimTypes.NameIdentifier) is null)
+									{
+										<div class="btn btn-primary">Post comment</div>
+									}
+									else
+									{
+										<input type="submit" value="Post comment" class="btn btn-primary" />
+									}
+									
 							
 						</div>
-						<div class="col-sm-8">
-							<div class="text-area">
-								<div class="blank-arrow">
-									<label>Write here</label>
-								</div>
-								
-								<textarea name="message" rows="11"></textarea>
-								<a class="btn btn-primary" href="">post comment</a>
-							</div>
-						</div>
+						
+						
 					</div>
 				</div><!--/Repaly Box-->
 			</div>
-		</div>
+            </div>
+        </form>
 	</div>
 </section>

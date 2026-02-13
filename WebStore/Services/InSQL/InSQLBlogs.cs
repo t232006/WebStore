@@ -20,7 +20,7 @@ namespace WebStore.Services.InSQL
         public Blog? GetBlogByID(int ID)
         {
             var ablog = db.Blogs.Include(b=>b.Author).FirstOrDefault(b => b.ID == ID)  ?? null;
-            if (ablog is not null) ablog.Comments.AddRange(db.Comments.Where(c => c.CommentID == ID));
+            if (ablog is not null) ablog.Comments.AddRange(db.Comments.Where(c => c.BlogID == ID));
             return ablog;
         }
 

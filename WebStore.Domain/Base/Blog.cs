@@ -25,6 +25,6 @@ namespace WebStore.Domain.Base
         [ForeignKey(nameof(SectionID))]
         public Section? Section {get; set;}
         public int? SectionID { get; set; }
-        public ICollection<Comment>? Comments { get; set; } = new HashSet<Comment>();
+        public ICollection<Comment> Comments { get; set; } = new HashSet<Comment>();
     }
 }

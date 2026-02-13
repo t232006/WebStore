@@ -32,6 +32,7 @@ namespace WebStore.Services.InSQL
                                         Text = Text,
                                         BlogID = BlogID,
                                         CommentID=CommentID});
+            db.SaveChanges();
             return db.Comments.OrderBy(u => u.ID).Select(u => u.ID).Last();
         }
     }

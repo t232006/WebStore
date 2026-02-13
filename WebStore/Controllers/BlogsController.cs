@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages;
 using System.Security.Claims;
 using WebStore.Domain.Base;
 using WebStore.Mapping;
@@ -32,11 +33,15 @@ namespace WebStore.Controllers
             //ViewBag.blog = blog;
             return View(blog.ToView());
         }
-        public IActionResult PostComment(int? BlogID, int? CommentID, string Text)
+        [HttpPost]
+        public IActionResult PostBlogComment(BlogViewModel bvm)
         {
             string UserID=User.FindFirstValue(ClaimTypes.NameIdentifier)!;
-            com.WriteComment(BlogID, CommentID, UserID, Text);
-            return View("Index");
+            com.WriteComment(bvm.ID, 
+                    null, 
+                    UserID, 
+                    bvm.NewCommentText);
+            return RedirectToAction("OneArticle", "Blogs", new { BlogID = bvm.ID });
         }
         public IActionResult ShopBlog() => View();    }
     
