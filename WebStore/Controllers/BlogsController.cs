@@ -43,6 +43,16 @@ namespace WebStore.Controllers
                     bvm.NewCommentText);
             return RedirectToAction("OneArticle", "Blogs", new { BlogID = bvm.ID });
         }
+        [HttpPost]
+        public IActionResult PostCommentComment(BlogViewModel bvm)
+        {
+            string UserID = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
+            com.WriteComment(null,
+                    bvm.CommentID,
+                    UserID,
+                    bvm.NewCommentText);
+            return RedirectToAction("OneArticle", "Blogs", new { BlogID = bvm.ID });
+        }
         public IActionResult ShopBlog() => View();    }
     
 }

@@ -1,5 +1,30 @@
 ﻿@using System.Security.Claims
+@using Microsoft.AspNetCore.Html
 @model BlogViewModel 
+@functions {
+	IHtmlContent commentBlock(CommentViewModel com)
+	{
+		var divClass = (com.ParentCommentID is null) ?
+								"media-body-blog" : "media-body";
+
+		return new HtmlContentBuilder(new[]
+{
+            // или можно через строку, но TagBuilder надёжнее
+            $"<a class=\"pull-left\" href=\"#\">",
+			$"  <img class=\"media-object\" src=\"images/blog/man-two.jpg\" alt=\"\">",
+			$"</a>",
+			$"<div class=\"{divClass}\">",
+			"  <ul class=\"sinlge-post-meta\">",
+			$"    <li><i class=\"fa fa-user\"></i>{com.Author.user_Name}</li>",
+			$"    <li><i class=\"fa fa-clock-o\"></i> {com.pubTime}</li>",
+			$"    <li><i class=\"fa fa-calendar\"></i> {com.pubDate}</li>",
+			"  </ul>",
+			$"  <p>{com.Text}</p>",
+			"  <a class=\"btn btn-primary\" href=\"\"><i class=\"fa fa-reply\"></i>Replay</a>",
+			"</div>"
+		});
+	}
+}
 <section>
 	<div class="container">
 		<form asp-action="PostBlogComment">
@@ -74,27 +99,16 @@
 				</div><!--Comments-->
 				<div class="response-area">
 					<h2>3 RESPONSES</h2>
+					<form asp-action="PostCommentComment">
 					<ul class="media-list">
 						<li class="media">
 							@foreach(var com in Model.Comments)
 							{
-							<a class="pull-left" href="#">
-								<img class="media-object" src="images/blog/man-two.jpg" alt="">
-							</a>
-							<div class="media-body-blog">
-								<ul class="sinlge-post-meta">
-									<li><i class="fa fa-user"></i>@com.Author.user_Name</li>
-									<li><i class="fa fa-clock-o"></i> @com.pubTime</li>
-									<li><i class="fa fa-calendar"></i> @com.pubDate</li>
-								</ul>
-								<p>@com.Text</p>
-								<a class="btn btn-primary" href=""><i class="fa fa-reply"></i>Replay</a>
-							</div>	
+								@commentBlock(com);
 							}
-							
 						</li>
-						
-					</ul>
+                    </ul>
+					</form>
 				</div><!--/Response-area-->
 				<div class="replay-box">
 					<div class="row">
