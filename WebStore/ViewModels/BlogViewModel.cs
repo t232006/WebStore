@@ -26,6 +26,6 @@ namespace WebStore.ViewModels
         public string pubTime { get => publicDate.ToLocalTime().ToString("h:m"); }
 
         public string NewCommentText { get; set; } = null!;
-        public int? CommentID { get; set; }
+        //public int? CommentID { get; set; }
     }
 }

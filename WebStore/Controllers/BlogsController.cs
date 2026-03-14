@@ -44,11 +44,11 @@ namespace WebStore.Controllers
             return RedirectToAction("OneArticle", "Blogs", new { BlogID = bvm.ID });
         }
         [HttpPost]
-        public IActionResult PostCommentComment(BlogViewModel bvm)
+        public IActionResult PostCommentComment(BlogViewModel bvm, int CommentID)
         {
             string UserID = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
             com.WriteComment(null,
-                    bvm.CommentID,
+                    CommentID,
                     UserID,
                     bvm.NewCommentText);
             return RedirectToAction("OneArticle", "Blogs", new { BlogID = bvm.ID });

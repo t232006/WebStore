@@ -12,8 +12,8 @@ using WebStore.DAL.Context;
 namespace WebStore.DAL.Migrations
 {
     [DbContext(typeof(WebStoreDB))]
-    [Migration("20260210015208_BURMig")]
-    partial class BURMig
+    [Migration("20260314132120_CommentDateSet")]
+    partial class CommentDateSet
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -232,11 +232,14 @@ namespace WebStore.DAL.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<int>("BlogID")
+                    b.Property<int?>("BlogID")
                         .HasColumnType("int");
 
                     b.Property<int?>("CommentID")
                         .HasColumnType("int");
+
+                    b.Property<DateTime>("PublicDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Text")
                         .IsRequired()
@@ -582,10 +585,8 @@ namespace WebStore.DAL.Migrations
                         .IsRequired();
 
                     b.HasOne("WebStore.Domain.Base.Blog", "Blog")
-                        .WithMany()
-                        .HasForeignKey("BlogID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .WithMany("Comments")
+                        .HasForeignKey("BlogID");
 
                     b.HasOne("WebStore.Domain.Base.Comment", "ParentComment")
                         .WithMany()
@@ -623,6 +624,11 @@ namespace WebStore.DAL.Migrations
                         .HasForeignKey("ParentID");
 
                     b.Navigation("Parent");
+                });
+
+            modelBuilder.Entity("WebStore.Domain.Base.Blog", b =>
+                {
+                    b.Navigation("Comments");
                 });
 #pragma warning restore 612, 618
         }

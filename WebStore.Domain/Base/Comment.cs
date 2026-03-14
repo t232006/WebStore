@@ -11,7 +11,8 @@ namespace WebStore.Domain.Base
     {
         public Comment()
         {
-            PublicDate = DateTime.Now;
+            PublicDate = DateTime.UtcNow;
+            //PublicDate = DateTimeOffset.UtcNow;
         }
         public int ID { get; set; }
         public required string Text { get; set; } = null!;
@@ -21,7 +22,7 @@ namespace WebStore.Domain.Base
         public int? BlogID { get; set; }
         [ForeignKey(nameof(BlogID))]
         public Blog? Blog { get; set; }
-        public DateTime PublicDate { get;}
+        public DateTime PublicDate { get; set;}
         public int? CommentID { get; set; }
         [ForeignKey(nameof(CommentID))]
         public Comment? ParentComment { get; set; }
