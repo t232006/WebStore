@@ -34,21 +34,12 @@ namespace WebStore.Controllers
             return View(blog.ToView());
         }
         [HttpPost]
-        public IActionResult PostBlogComment(BlogViewModel bvm)
+        public IActionResult PostComment(BlogViewModel bvm)
         {
-            string UserID=User.FindFirstValue(ClaimTypes.NameIdentifier)!;
-            com.WriteComment(bvm.ID, 
-                    null, 
-                    UserID, 
-                    bvm.NewCommentText);
-            return RedirectToAction("OneArticle", "Blogs", new { BlogID = bvm.ID });
-        }
-        [HttpPost]
-        public IActionResult PostCommentComment(BlogViewModel bvm, int CommentID)
-        {
+            if (string.IsNullOrWhiteSpace(bvm.NewCommentText)) return BadRequest();
             string UserID = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
-            com.WriteComment(null,
-                    CommentID,
+            com.WriteComment(bvm.ID,
+                    bvm.CommentID,
                     UserID,
                     bvm.NewCommentText);
             return RedirectToAction("OneArticle", "Blogs", new { BlogID = bvm.ID });

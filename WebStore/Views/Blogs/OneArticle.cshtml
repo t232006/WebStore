@@ -1,32 +1,9 @@
 ﻿@using System.Security.Claims
 @using Microsoft.AspNetCore.Html
-@model BlogViewModel 
-@functions {
-	IHtmlContent commentBlock(CommentViewModel com)
-	{
-		var divClass = (com.ParentCommentID is null) ?
-								"media-body-blog" : "media-body";
-		HtmlContentBuilder builder = new HtmlContentBuilder();
-
-		builder.AppendHtml($"<a class=\"pull-left\" href=\"#\">");
-		builder.AppendHtml(	$"  <img class=\"media-object\" src=\"images/blog/man-two.jpg\" alt=\"\">");
-		builder.AppendHtml(	$"</a>");
-		builder.AppendHtml(	$"<div class=\"{divClass}\">");
-		builder.AppendHtml(	"  <ul class=\"sinlge-post-meta\">");
-		builder.AppendHtml(	$"    <li><i class=\"fa fa-user\"></i>{com.Author.user_Name}</li>");
-		builder.AppendHtml(	$"    <li><i class=\"fa fa-clock-o\"></i> {com.pubTime}</li>");
-		builder.AppendHtml(	$"    <li><i class=\"fa fa-calendar\"></i> {com.pubDate}</li>");
-		builder.AppendHtml(	"  </ul>");
-		builder.AppendHtml(	$"  <p>{com.Text}</p>");
-		builder.AppendHtml($"  ");
-		builder.AppendHtml(	"  <a class=\"btn btn-primary\" href=\"\"><i class=\"fa fa-reply\"></i>Replay</a>");
-			builder.AppendHtml("</div>");
-			return builder;
-         }
-}
+@model BlogViewModel		
 <section>
 	<div class="container">
-		<form asp-action="PostBlogComment">
+		
 		<div class="row">
 			
 			<div class="col-sm-9">
@@ -34,8 +11,7 @@
 					<h2 class="title text-center">Latest From our Blog</h2>
 					<div class="single-blog-post">
 						<h3>@Model.Name</h3>
-						<input type="hidden" asp-for="@Model.ID"/>
-						<input type="hidden" asp-for="@Model.Author.Id"/>
+						
 						<div class="post-meta">
 							<ul>
 								<li><i class="fa fa-user"></i>@Model.Author.user_Name </li>
@@ -96,47 +72,71 @@
 						</div>
 					</div>
 				</div><!--Comments-->
-				<div class="response-area">
-					<h2>3 RESPONSES</h2>
-					<form asp-action="PostCommentComment">
-					<ul class="media-list">
-						<li class="media">
-							@foreach(var com in Model.Comments)
-							{
-								@commentBlock(com);
-							}
-						</li>
-                    </ul>
-					</form>
-				</div><!--/Response-area-->
 				<div class="replay-box">
 					<div class="row">
-						
-						
 						<h2>Leave a replay</h2>
-							
-						
 						<div class="col-sm-8">
-							
 							<div class="blank-arrow">
 								<label>Write here</label>
 							</div>
-								
-							<textarea asp-for="NewCommentText" rows="10"></textarea>
-							
-									@if (@User.FindFirstValue(ClaimTypes.NameIdentifier) is null)
-									{
-										<div class="btn btn-primary">Post comment</div>
-									}
-									else
-									{
-										<input type="submit" value="Post comment" class="btn btn-primary" />
-									}
+							<form asp-action="PostComment">
+								<input type="hidden" asp-for="@Model.ID" />
+								<input type="hidden" asp-for="@Model.Author.Id" />
+								<textarea asp-for="NewCommentText" rows="5"></textarea>
+								@if (@User.FindFirstValue(ClaimTypes.NameIdentifier) is null)
+								{
+									<div class="btn btn-primary">Post comment</div>
+								}
+								else
+								{
+									<input type="submit" value="Post Сomment" class="btn btn-primary" />
+								}
+							</form>
 						</div>
 					</div>
-				</div><!--/Repaly Box-->
+				</div>
+				
+				<div class="response-area">
+					<h2>3 RESPONSES</h2>
+					<!--form asp-action="PostCommentComment"-->
+					
+						<ul class="media-list">
+							<li class="media">
+								@foreach(var com in Model.Comments)
+								{	
+								<form asp-action="PostComment">
+									<a class="pull-left" href="#">
+										<img class="media-object" src="images/blog/man-two.jpg" alt="">
+									</a>
+								
+									<div class= @(com.ParentCommentID==null? "media-body-blog":"media-body")>
+										<ul class="sinlge-post-meta">
+										<li><i class="fa fa-user"></i>@com.Author.user_Name</li>
+										<li><i class="fa fa-clock-o"></i> @com.pubTime</li>
+										<li><i class="fa fa-calendar"></i> @com.pubDate</li>
+										</ul>
+										<p>@com.Text</p>
+										<a data-toggle="collapse" data-parent="#accordian" href="#@com.ID">
+											<span class ="btn btn-primary"/>
+											Replay		
+										</a>
+										<div id="@com.ID" class="panel-collapse collapse">
+											<div class="panel-body">
+												<input type="hidden" asp-for="@Model.ID" />
+												<input type="hidden" asp-for="CommentID" value="@com.ID"  />
+												<textarea asp-for="NewCommentText" rows="4"></textarea>
+												<input type="submit" value="Post Сomment" class="btn btn-primary" />
+											</div>
+										</div>
+									</div>
+								</form>
+								}
+							</li>
+						</ul>
+					
+				</div><!--/Response-area-->
+				<!--/Repaly Box-->
 			</div>
-            </div>
-        </form>
+        </div>
 	</div>
 </section>

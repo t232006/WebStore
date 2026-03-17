@@ -25,7 +25,8 @@ namespace WebStore.Mapping
                     Text = c.Text,
                     Author = c.Author,
                     ID = c.ID,
-                    PublicDate = c.PublicDate
+                    PublicDate = c.PublicDate,
+                    ParentCommentID = c.CommentID
                 }).ToList(),
                 ID = b.ID
             };

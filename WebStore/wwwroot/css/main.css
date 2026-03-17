@@ -2339,7 +2339,7 @@ h2.title {
 
 
 .replay-box {
-  margin-bottom: 107px;
+  margin-bottom: 10px;
   margin-top: 55px;
 }
 
@@ -2373,7 +2373,7 @@ h2.title {
   font-size: 12px;
   margin-bottom: 22px;
   padding: 8px;
-  width: 100%;
+  width: 30%;
 }
 
 .replay-box form input:hover, 
