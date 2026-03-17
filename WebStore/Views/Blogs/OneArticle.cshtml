@@ -1,6 +1,9 @@
 ﻿@using System.Security.Claims
 @using Microsoft.AspNetCore.Html
-@model BlogViewModel		
+@model BlogViewModel
+@functions {
+	
+}
 <section>
 	<div class="container">
 		
@@ -51,12 +54,12 @@
 				</div><!--/rating-area-->
 
 				<div class="socials-share">
-					<a href=""><img src="images/blog/socials.png" alt=""></a>
+					<a href=""><img src="/images/blog/socials.png" alt=""></a>
 				</div><!--/socials-share-->
 
 				<div class="media commnets">
 					<a class="pull-left" href="#">
-						<img class="media-object" src="images/blog/man-one.jpg" alt="">
+						<img class="media-object" src="/images/blog/man-one.jpg" alt="">
 					</a>
 					<div class="media-body">
 						<h4 class="media-heading">@Model.Author.user_Name</h4>
@@ -97,42 +100,18 @@
 				</div>
 				
 				<div class="response-area">
-					<h2>3 RESPONSES</h2>
+					<h2>@Model.Comments.Count RESPONSES</h2>
 					<!--form asp-action="PostCommentComment"-->
 					
-						<ul class="media-list">
-							<li class="media">
-								@foreach(var com in Model.Comments)
-								{	
-								<form asp-action="PostComment">
-									<a class="pull-left" href="#">
-										<img class="media-object" src="images/blog/man-two.jpg" alt="">
-									</a>
-								
-									<div class= @(com.ParentCommentID==null? "media-body-blog":"media-body")>
-										<ul class="sinlge-post-meta">
-										<li><i class="fa fa-user"></i>@com.Author.user_Name</li>
-										<li><i class="fa fa-clock-o"></i> @com.pubTime</li>
-										<li><i class="fa fa-calendar"></i> @com.pubDate</li>
-										</ul>
-										<p>@com.Text</p>
-										<a data-toggle="collapse" data-parent="#accordian" href="#@com.ID">
-											<span class ="btn btn-primary"/>
-											Replay		
-										</a>
-										<div id="@com.ID" class="panel-collapse collapse">
-											<div class="panel-body">
-												<input type="hidden" asp-for="@Model.ID" />
-												<input type="hidden" asp-for="CommentID" value="@com.ID"  />
-												<textarea asp-for="NewCommentText" rows="4"></textarea>
-												<input type="submit" value="Post Сomment" class="btn btn-primary" />
-											</div>
-										</div>
-									</div>
-								</form>
-								}
-							</li>
-						</ul>
+                    <ul class="media-list">
+                        <li class="media">
+							@foreach(var com in Model.Comments)
+							{
+								ViewBag.Comment = com;	
+								<partial name="Partial/_BlockComment"/>	
+							}
+						</li>
+					</ul>
 					
 				</div><!--/Response-area-->
 				<!--/Repaly Box-->
