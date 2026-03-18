@@ -11,7 +11,7 @@ namespace WebStore.Services.InMemory
             throw new NotImplementedException();
         }
 
-        public IEnumerable<Blog> GetBlogs(ProductFilter filter)
+        public IEnumerable<Blog> GetBlogs(ProductFilter filter, int Skip, int Take)
         {
             var result = TestData.Blogs;
             if (filter is not null)
