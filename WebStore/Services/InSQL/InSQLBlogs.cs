@@ -24,9 +24,10 @@ namespace WebStore.Services.InSQL
             return ablog;
         }
 
-        public IEnumerable<Blog> GetBlogs(ProductFilter filter)
+        public IEnumerable<Blog> GetBlogs(ProductFilter filter, int Skip, int Take)
         {
             IQueryable<Blog> result = db.Blogs.Include(b=>b.Author);
+            if (Skip > 0) result = result.Skip(Skip);
             if (filter is not null)
             {
                 if (filter.SectionID.HasValue)
@@ -34,7 +35,7 @@ namespace WebStore.Services.InSQL
                 if (filter.BrandID is not null)
                     result = result.Where(p => p.BrandID == filter.BrandID).OrderBy(p => p.PublicDate);
             }
-            return result;
+            return result.Take(Take);
         }
     }
 }

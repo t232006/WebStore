@@ -105,10 +105,15 @@
 					
                     <ul class="media-list">
                         <li class="media">
-							@foreach(var com in Model.Comments)
+							@foreach(var comParent in Model.Comments.Where(p=>p.ParentCommentID==null))
 							{
-								ViewBag.Comment = com;	
+								ViewBag.Comment = comParent;	
 								<partial name="Partial/_BlockComment"/>	
+								@foreach(var comChild in Model.Comments.Where(p => p.ParentCommentID == comParent.ID))
+								{
+									ViewBag.Comment = comChild;
+									<partial name="Partial/_BlockComment" />
+								}
 							}
 						</li>
 					</ul>

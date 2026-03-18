@@ -43,7 +43,8 @@ namespace WebStore.DAL.Migrations
                         name: "FK_Comments_Comments_CommentID",
                         column: x => x.CommentID,
                         principalTable: "Comments",
-                        principalColumn: "ID");
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             

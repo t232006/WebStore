@@ -7,10 +7,26 @@ namespace WebStore.Mapping
 {
     public static class BlogMapper
     {
-        public static BlogViewModel? ToView(this Blog? b)
+        public static BlogViewModel? ToView(this Blog? b, int Skip, int Take)
         {
             if (b is null) return null;
-            
+            IEnumerable<CommentViewModel> _Comments;
+            if (Take == 0) _Comments = Enumerable.Empty<CommentViewModel>(); 
+                else
+            _Comments = b.Comments.Select(c => new CommentViewModel
+             {
+                 Text = c.Text,
+                 Author = c.Author,
+                 ID = c.ID,
+                 PublicDate = c.PublicDate,
+                 ParentCommentID = c.CommentID
+             });
+            if (Skip > 0)
+            {
+                if (Skip > _Comments.Count()) _Comments = Enumerable.Empty<CommentViewModel>(); 
+                    else
+                _Comments = _Comments.Skip(Skip);  
+            }
             return new BlogViewModel
             {
                 Author = b.Author,
@@ -20,14 +36,7 @@ namespace WebStore.Mapping
                 publicDate = b.PublicDate,
                 SectionID = b.SectionID,
                 BrandID = b.BrandID,
-                Comments = b.Comments.Select(c=>new CommentViewModel
-                {
-                    Text = c.Text,
-                    Author = c.Author,
-                    ID = c.ID,
-                    PublicDate = c.PublicDate,
-                    ParentCommentID = c.CommentID
-                }).ToList(),
+                Comments = _Comments.Take(Take).ToList(),
                 ID = b.ID
             };
         }

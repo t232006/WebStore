@@ -9,11 +9,11 @@
 				<img class="media - object" src="/images/blog/man-two.jpg" alt="">
 			</a>
 
-			<div class=@(comment.ParentCommentID == null ? "media - body - blog" : "media - body")>
+			<div class=@(comment.ParentCommentID == null ? "media-body-blog" : "media-body")>
 					<ul class="sinlge-post-meta">
-						<li><i class="fa fa-user"></i>@Model.Author.user_Name</li>
-						<li><i class="fa fa-clock-o"></i> @Model.pubTime</li>
-						<li><i class="fa fa - calendar"></i> @Model.pubDate</li>
+						<li><i class="fa fa-user"></i>@comment.Author.user_Name</li>
+						<li><i class="fa fa-clock-o"></i> @comment.pubTime</li>
+						<li><i class="fa fa-calendar"></i> @comment.pubDate</li>
 					</ul>
 				<p>@comment.Text</p>
 				<a data-toggle="collapse" data-parent="#accordian" href="#@comment.ID">
@@ -23,7 +23,7 @@
 				<div id="@comment.ID" class="panel-collapse collapse">
 					<div class="panel-body">
 						<input type="hidden" asp-for="@Model.ID" />
-						<input type="hidden" asp-for="CommentID" value="@Model.ID" />
+						<input type="hidden" asp-for="CommentID" value="@comment.ID" />
 						<textarea asp-for="NewCommentText" rows="4"></textarea>
 						<input type="submit" value="Post Сomment" class="btn btn-primary" />
 					</div>
