@@ -22,7 +22,7 @@ namespace WebStore.Controllers
             var filter = new ProductFilter{BrandID=BrandID, SectionID=SectionID};
             var blogs = bl.GetBlogs(filter, Page*PageSize, PageSize)
                 .OrderBy(b => b.PublicDate)
-                .Select(b=>b.ToView(Page*PageSize, Page));
+                .Select(b=>b.ToView());
             return View(blogs);
         }
         public IActionResult OneArticle(int BlogID, int Page, int PageSize=10)
@@ -31,7 +31,7 @@ namespace WebStore.Controllers
             var blog = bl.GetBlogByID(BlogID);
             if (blog is null) return NotFound();
             //ViewBag.blog = blog;
-            return View(blog.ToView(Page*PageSize, PageSize));
+            return View(blog.ToView());
         }
         [HttpPost]
         public IActionResult PostComment(BlogViewModel bvm)
