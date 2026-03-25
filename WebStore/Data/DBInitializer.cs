@@ -11,11 +11,18 @@ namespace WebStore.Data
     {
         private readonly WebStoreDB db;
         private readonly ILogger<DBInitializer> logger;
+        private readonly UserManager<User> userManager;
+        private readonly RoleManager<Role> roleManager;
 
-        public DBInitializer(WebStoreDB _db, ILogger<DBInitializer> _logger)
+        public DBInitializer(WebStoreDB _db, 
+            UserManager<User> UserManager,
+            RoleManager<Role> RoleManager,
+            ILogger<DBInitializer> _logger)
         {
             this.db = _db;
             this.logger = _logger;
+            userManager = UserManager;
+            roleManager = RoleManager;
         }
         public async Task<bool> EraseDB(CancellationToken Cancel=default)
         {
@@ -50,7 +57,7 @@ namespace WebStore.Data
                 db.Users.Add(user);
                 db.SaveChanges();
             }
-            
+            await InitializeIdentityAsync(Cancel);
             if (AddTestData)
             {
                 UserID = db.Users.Select(u => u.Id).First();
@@ -141,6 +148,49 @@ namespace WebStore.Data
             await db.SaveChangesAsync();
             logger.LogInformation("{0} copy complete", ent);
             await transaction.CommitAsync();
+        }
+        private async Task InitializeIdentityAsync(CancellationToken Cancel)
+        {
+            async Task CheckRole(string roleName)
+            {
+                if (await roleManager.RoleExistsAsync(roleName))
+                {
+                    logger.LogInformation($"Роль {0} существует", roleName);
+                }
+                else
+                {
+                    logger.LogInformation($"Роль {0} не существует. Создаю...", roleName);
+                    await roleManager.CreateAsync(new Role { Name = roleName });
+                    logger.LogInformation($"Роль {0} создана", roleName);
+
+                }
+            }
+            logger.LogInformation("Начинаю инициализацию Identity");
+            await CheckRole(Role.Administrators);
+            await CheckRole(Role.Users);
+            if (await userManager.FindByNameAsync("Admin") is null)
+            {
+                logger.LogInformation($"Пользователя \"Admin\" не существует. Создаю...");
+                User admin = new User { UserName = "Admin" };
+                var creationResult = await userManager.CreateAsync(admin, "Admin");
+                if (creationResult.Succeeded)
+                {
+                    logger.LogInformation("Пользователь \"Admin\" создан. Даю административные права");
+                    await userManager.AddToRoleAsync(admin, Role.Administrators);
+                    logger.LogInformation("Пользователь \"Admin\" получил права администратора");
+
+                }
+                else
+                {
+                    string errors = string.Join(", ", creationResult.Errors.Select(e=>e.Description));
+                    logger.LogInformation($"Пользователя \"Admin\" не удалось создать. Ошибки:{0}",errors);
+                    throw new InvalidOperationException($"Не могу создать \"Admin\" из за ошибок {errors}");
+                }
+            } else
+                logger.LogInformation("Пользователя \"Admin\" существует");
+
+
+            logger.LogInformation("Инициализация прошла успешно");
         }
     
     }

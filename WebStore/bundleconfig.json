@@ -1,0 +1,23 @@
+[
+  {
+    "outputFileName": "wwwroot/js/site.js",
+    "inputFiles": [
+      "wwwroot/js/contact.js",
+      "wwwroot/js/gmaps.js",
+      "wwwroot/js/price-range.js",
+      "wwwroot/js/main.js"
+    ],
+    "minify": {
+      "enabled": true,
+      "gzip": true,
+      "renameLocals": true
+    },
+    "sourceMap": true
+  },
+  {
+    "outputFileName": "wwwroot/css/site.min.css",
+    "inputFiles": [
+      "wwwroot/css/site.css"
+    ]
+  }
+]
