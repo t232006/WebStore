@@ -10,6 +10,7 @@ using WebStore.ViewModels;
 
 namespace WebStore.Controllers
 {
+    [Authorize]
     public class AccountController :Controller
     {
         private readonly IStaffData<User, string> user;
@@ -71,9 +72,11 @@ namespace WebStore.Controllers
             await signinManager.RefreshSignInAsync(tempUser);
             return RedirectToAction("Index", "Home");
         }
-        
+        [AllowAnonymous]
         public IActionResult Register() => View(new RegisterUserViewModel());
         [HttpPost]
+        [ValidateAntiForgeryToken]
+        [AllowAnonymous]
         public async Task<IActionResult> Register(RegisterUserViewModel Model)
         {
             if (!ModelState.IsValid) return View(Model);
@@ -97,6 +100,7 @@ namespace WebStore.Controllers
             return View(Model);
 
         }
+        [AllowAnonymous]
         public IActionResult Login(string? _redirect) => View(new LoginUserViewModel {redirectUrl=_redirect });
         [HttpPost]
         [ValidateAntiForgeryToken]
