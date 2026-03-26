@@ -104,6 +104,7 @@ namespace WebStore.Controllers
         public IActionResult Login(string? _redirect) => View(new LoginUserViewModel {redirectUrl=_redirect });
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [AllowAnonymous]
         public async Task<IActionResult> Login(LoginUserViewModel Model)
         {
             if (!ModelState.IsValid) return View(Model);
