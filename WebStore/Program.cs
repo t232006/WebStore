@@ -65,6 +65,8 @@ namespace WebStore
             
             builder.Services.AddScoped<DBInitializer>();
             builder.Services.AddControllersWithViews();
+
+
             var app = builder.Build();
             using (var scope = app.Services.CreateScope())
             {

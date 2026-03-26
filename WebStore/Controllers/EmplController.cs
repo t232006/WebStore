@@ -7,9 +7,12 @@ using WebStore.Services;
 using WebStore.Servises.Interfaces;
 using WebStore.ViewModels;
 using WebStore.Domain.Base;
+using Microsoft.AspNetCore.Authorization;
+using WebStore.Domain.Identity;
 
 namespace WebStore.Controllers
 {
+    [Authorize]
     public class EmplController:Controller
     {
         private readonly IStaffData<Employee, int> _employees;
@@ -28,6 +31,7 @@ namespace WebStore.Controllers
             return View(emp);
         }
         public IActionResult InsertEmp() => View("Edit", new EmployeeViewModel());
+        [Authorize(Roles =Role.Administrators)]
         public IActionResult Edit(int? ID)
         {
             Employee empl = new Employee();
@@ -38,6 +42,7 @@ namespace WebStore.Controllers
             return View(evm);
         }
         [HttpPost]
+        [Authorize(Roles = Role.Administrators)]
         public IActionResult Edit(EmployeeViewModel? evm)
         {
            /* if ((DateTime.Today - evm.DateOfBirth).TotalDays / 365 < 18)
@@ -55,6 +60,7 @@ namespace WebStore.Controllers
                 _employees.Edit(empl);
             return RedirectToAction(nameof(Index));
         }
+        [Authorize(Roles = Role.Administrators)]
         public IActionResult Delete(int ID)
         {
             //_employees.Delete(ID);    так нельзя!        
@@ -71,6 +77,7 @@ namespace WebStore.Controllers
             return View(evm);
         }
         [HttpPost]
+        [Authorize(Roles =Role.Administrators)]
         public IActionResult DeleteConfirmed(int ID)
         {
             if (!_employees.Delete(ID)) return NotFound();

@@ -1,11 +1,12 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 using WebStore.Domain.Identity;
-using WebStore.ViewModels;
+using WebStore.Mapping;
 using WebStore.Services.InSQL;
 using WebStore.Servises.Interfaces;
-using WebStore.Mapping;
-using Microsoft.IdentityModel.Tokens;
+using WebStore.ViewModels;
 
 namespace WebStore.Controllers
 {
@@ -122,11 +123,11 @@ namespace WebStore.Controllers
             await signinManager.SignOutAsync();
             return RedirectToAction("Index", "Home");
         }
-        public IActionResult AccessDenied(string? redirectUrl) 
+        [AllowAnonymous]
+        public IActionResult AccessDenied(string? ReturnUrl)
         {
-            ViewBag.redirectUrl = redirectUrl;
+            ViewBag.ReturnUrl = ReturnUrl;
             return View();
-            
         }
 
     }
