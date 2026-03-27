@@ -6,6 +6,9 @@ namespace WebStore.Servises.Interfaces
     {
         IEnumerable<Section> GetSections();
         IEnumerable<Brand> GetBrands();
-        IEnumerable<Product> GetProducts(ProductFilter? filter=null);   
+        IEnumerable<Product> GetProducts(ProductFilter? filter=null);
+        public Product? GetProductById(int ID);
+        public Section? GetSectionById(int ID);
+        public Brand? GetBrandById(int ID);
     }
 }

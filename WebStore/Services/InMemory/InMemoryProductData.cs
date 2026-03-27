@@ -4,12 +4,22 @@ using WebStore.Servises.Interfaces;
 
 namespace WebStore.Services.InMemory
 {
+    [Obsolete("Use InSQLProductData instead")]
     public class InMemoryProductData : IProductData
     {
+        public Brand? GetBrandById(int ID)
+        {
+            throw new NotImplementedException();
+        }
 
         public IEnumerable<Brand> GetBrands()
         {
             return TestData.Brands;
+        }
+
+        public Product? GetProductById(int ID)
+        {
+            throw new NotImplementedException();
         }
 
         public IEnumerable<Product> GetProducts(ProductFilter? filter)
@@ -23,6 +33,11 @@ namespace WebStore.Services.InMemory
                     result = result.Where(p => p.SectionId == filter.SectionID).OrderBy(p => p.Order);
             }
             return result;
+        }
+
+        public Section? GetSectionById(int ID)
+        {
+            throw new NotImplementedException();
         }
 
         public IEnumerable<Section> GetSections()

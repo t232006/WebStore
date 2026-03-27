@@ -8,5 +8,6 @@ namespace WebStore.Domain.Base
     {
         public int? BrandID { get; set; }
         public int? SectionID { get; set; }
+        public int[]? IDs { get; set; }
     }
 }

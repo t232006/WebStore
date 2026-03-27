@@ -7,6 +7,6 @@ namespace WebStore.Domain.Base
     public class Brand : NamedEntity, IOrderedEntity
     {
         public int Order { get; set; }
-        ICollection<Product> Products { get; set; } = new HashSet<Product>();
+        public ICollection<Product> Products { get; set; } = new HashSet<Product>();
     }
 }
