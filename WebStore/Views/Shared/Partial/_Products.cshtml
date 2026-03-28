@@ -10,13 +10,13 @@
                 <div class="productinfo text-center">
                     <img src="~/images/shop/@pr.PictureUrl" alt="" />
                     <h2>@pr.Price.ToString("c2")</h2>
-                    <p>@pr.Name</p>
+                        <p><a asp-controller="Catalog" asp-action="DetailedInfo" asp-route-ProductID="@pr.ID">@pr.Name</a></p>
                     <a asp-controller="Cart" asp-action="Add" asp-route-ProductID="@pr.ID" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
                 </div>
                 <div class="product-overlay">
                     <div class="overlay-content">
                             <h2>@pr.Price.ToString("c2")</h2>
-                        <p>@pr.Name</p>
+                            <p><a asp-controller="Catalog" asp-action="DetailedInfo" asp-route-ProductID="@pr.ID">@pr.Name</a></p>
                             <a asp-controller="Cart" asp-action="Add" asp-route-ProductID="@pr.ID" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
                     </div>
                 </div>

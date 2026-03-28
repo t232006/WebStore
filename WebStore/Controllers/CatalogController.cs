@@ -26,5 +26,11 @@ namespace WebStore.Controllers
 
         }
         public IActionResult Cart() => View();
+        public IActionResult DetailedInfo(int ProductID)
+        {
+            var product = pd.GetProductById(ProductID);
+            if (product is null) return NotFound();
+            return View(product.ToView());
+        } 
     }
 }
