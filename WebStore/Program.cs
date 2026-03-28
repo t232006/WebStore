@@ -9,6 +9,7 @@ using WebStore.Domain.Base;
 using WebStore.Domain.Identity;
 using Microsoft.AspNetCore.Identity;
 using WebStore.Domain.Base.Interfaces;
+using WebStore.Services.InCookies;
 
 namespace WebStore
 {
@@ -28,6 +29,7 @@ namespace WebStore
             builder.Services.AddScoped<IBlogs, InSQLBlogs>();
             builder.Services.AddScoped<IBlogUserRate, InSQLBlogUserRate>();
             builder.Services.AddScoped<IComments, InSQLComments>();
+            builder.Services.AddScoped<ICart, InCookiesCart>();
 
             builder.Services.AddIdentity<User, Role>(/*opt => { }*/)
                 .AddEntityFrameworkStores<WebStoreDB>()

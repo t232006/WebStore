@@ -10,6 +10,8 @@
 			</ol>
 		</div>
 		<div class="table-responsive cart_info">
+			@if (Model.ItemsCount>0)
+			{
 			<table class="table table-condensed">
 				<thead>
 					<tr class="cart_menu">
@@ -37,16 +39,16 @@
 							</td>
 							<td class="cart_quantity">
 								<div class="cart_quantity_button">
-									<a class="cart_quantity_up" href=""> + </a>
+									<a class="cart_quantity_up" asp-action="Add" asp-route-ProductID="@product.ID"> + </a>
 									<input class="cart_quantity_input" type="text" name="@quantity" value="1" autocomplete="off" size="2" data-ddg-inputtype="unknown">
-									<a class="cart_quantity_down" href=""> - </a>
+									<a class="cart_quantity_down" asp-action="Decrement" asp-route-ProductID="@product.ID"> - </a>
 								</div>
 							</td>
 							<td class="cart_total">
-								<p class="cart_total_price">@(product.Price*quantity).ToString("c")</p>
+								<p class="cart_total_price">@((product.Price*quantity).ToString("c2"))</p>
 							</td>
 							<td class="cart_delete">
-								<a class="cart_quantity_delete" href=""><i class="fa fa-times"></i></a>
+								<a class="cart_quantity_delete" asp-action="Remove" asp-route-ProductID="@product.ID"><i class="fa fa-times"></i></a>
 							</td>
 						</tr>
 					}
@@ -54,6 +56,12 @@
 
 				</tbody>
 			</table>
+			}
+			else
+			{
+				<p>Cart is empty</p>
+			}
+			
 		</div>
 	</div>
 </section>
@@ -124,7 +132,7 @@
 						<li>Cart Sub Total <span>$59</span></li>
 						<li>Eco Tax <span>$2</span></li>
 						<li>Shipping Cost <span>Free</span></li>
-						<li>Total <span>@Model.TotalPrice.ToString("c")</span></li>
+						<li>Total <span>@Model.TotalPrice().ToString("c")</span></li>
 					</ul>
 					<a class="btn btn-default update" href="">Update</a>
 					<a class="btn btn-default check_out" href="">Check Out</a>

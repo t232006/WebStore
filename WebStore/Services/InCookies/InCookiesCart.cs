@@ -8,7 +8,7 @@ using WebStore.ViewModels;
 
 namespace WebStore.Services.InCookies
 {
-    public class InCookiesCartService: ICart 
+    public class InCookiesCart: ICart 
     {
         private readonly IProductData _productData;
         private readonly IHttpContextAccessor _httpConetxtAccessor;
@@ -44,28 +44,28 @@ namespace WebStore.Services.InCookies
         public void Add(int ProductID)
         {
             var _cart = cart;
-            cart.Add(ProductID);
+            _cart.Add(ProductID);
             cart = _cart;
         }
 
-        public void Decriment(int ProductID)
+        public void Decrement(int ProductID)
         {
             var _cart = cart;
-            cart.Decriment(ProductID);
+            _cart.Decriment(ProductID);
             cart = _cart;
         }
 
         public void Remove(int ProductID)
         {
             var _cart = cart;
-            cart.Remove(ProductID);
+            _cart.Remove(ProductID);
             cart = _cart;
         }
 
         public void Clear()
         {
             var _cart = cart;
-            cart.Clear();
+            _cart.Clear();
             cart = _cart;
         }
 
@@ -81,7 +81,7 @@ namespace WebStore.Services.InCookies
                                                 .Select(item => (prod_views[item.ItemID], item.Quantity))! };
         }
 
-        public InCookiesCartService(IProductData productData, IHttpContextAccessor httpContextAccessor)
+        public InCookiesCart(IProductData productData, IHttpContextAccessor httpContextAccessor)
         {
             _productData = productData;
             _httpConetxtAccessor = httpContextAccessor;
